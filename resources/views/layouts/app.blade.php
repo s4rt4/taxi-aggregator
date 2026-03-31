@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @include('components.seo-meta')
     <title>@yield('title', config('app.name', 'TaxiAggregator'))</title>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @stack('styles')
@@ -80,9 +81,17 @@
     {{-- Footer --}}
     <footer class="bg-dark text-light py-4 mt-5">
         <div class="container text-center">
+            <div class="mb-2">
+                <a href="{{ route('privacy-policy') }}" class="text-light text-decoration-none small me-3">Privacy Policy</a>
+                <a href="{{ route('terms-of-service') }}" class="text-light text-decoration-none small me-3">Terms of Service</a>
+                <a href="{{ route('cookie-policy') }}" class="text-light text-decoration-none small">Cookie Policy</a>
+            </div>
             <p class="mb-0 small">&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
         </div>
     </footer>
+
+    {{-- Cookie Consent --}}
+    @include('components.cookie-consent')
 
     @stack('scripts')
 </body>

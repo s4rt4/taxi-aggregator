@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\StatementController as AdminStatementController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\PaymentController;
@@ -38,7 +39,17 @@ Route::get('/', function () {
 })->name('home');
 
 // Search
-Route::post('/search', [SearchController::class, 'search'])->name('search');
+Route::post('/search', [SearchController::class, 'search'])->middleware('throttle:search')->name('search');
+
+// Legal Pages
+Route::get('privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy-policy');
+Route::get('terms-of-service', [PageController::class, 'termsOfService'])->name('terms-of-service');
+Route::get('cookie-policy', [PageController::class, 'cookiePolicy'])->name('cookie-policy');
+
+// Sitemap
+Route::get('/sitemap.xml', function () {
+    return response()->view('sitemap')->header('Content-Type', 'application/xml');
+});
 
 // Webhooks (no CSRF verification)
 Route::post('/webhooks/stripe', [WebhookController::class, 'handleStripe'])->name('webhooks.stripe');

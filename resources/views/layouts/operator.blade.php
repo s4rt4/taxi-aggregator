@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @include('components.seo-meta')
     <title>@yield('title', 'Operator Dashboard') - {{ config('app.name') }}</title>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @stack('styles')
@@ -216,7 +217,9 @@
         <div class="mc-footer">
             Registration no. 00000000 &nbsp;&middot;&nbsp; VAT no. 000 0000 00 &nbsp;&middot;&nbsp;
             &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved. &nbsp;&middot;&nbsp;
-            <a href="#">Terms and Conditions</a>
+            <a href="{{ route('terms-of-service') }}">Terms and Conditions</a> &nbsp;&middot;&nbsp;
+            <a href="{{ route('privacy-policy') }}">Privacy Policy</a> &nbsp;&middot;&nbsp;
+            <a href="{{ route('cookie-policy') }}">Cookie Policy</a>
         </div>
     </div>
 
