@@ -1,66 +1,178 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TaxiAggregator
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+UK taxi aggregator platform (Minicabit-style). Connects passengers with hundreds of licensed taxi operators, providing real-time price comparison and online booking.
 
-## About Laravel
+## Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Layer | Technology |
+|-------|-----------|
+| Backend | PHP 8.2+ / Laravel 11 |
+| Database | MySQL 8 |
+| Frontend | Bootstrap 5 + Alpine.js |
+| Build | Vite |
+| Payment | Stripe Checkout + Webhooks |
+| Maps | Google Maps Places Autocomplete + Distance Matrix |
+| Email | Laravel Notifications (mail + database) |
+| Testing | PHPUnit (195 tests, 405 assertions) |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Passenger
+- Search & compare quotes from multiple operators
+- Google Maps address autocomplete (UK restricted)
+- Real distance calculation via Distance Matrix API
+- Online booking with Stripe payment
+- Booking management (view, cancel, review)
+- 5-star rating system with sub-ratings (timing, fare, driver, vehicle, route)
+- Invoice with VAT breakdown (20% UK standard)
+- Cancellation policy with time-based refunds
+- Notification centre (email + in-app)
+- GDPR account deletion
 
-## Learning Laravel
+### Operator (Minicabit-style Dashboard)
+- Dark sidebar with VIEW / ACTIONS / PRICING / AVAILABILITY sections
+- **Pricing Engine** (3-tier priority: PAP > LP > PMP)
+  - Per Mile Prices (PMP) with mileage brackets + uplifts
+  - Location Prices (LP) with postcode radius matching
+  - Postcode Area Prices (PAP) for 124 UK areas
+- Meet & Greet charges for 59 airports/stations/ports
+- Flash Sales with fleet type targeting
+- Dead Leg Discounts
+- Free Pickup Postcodes
+- Fleet & driver management
+- Vehicle availability (7-day grid per fleet type)
+- Notice periods + postcode lead times
+- Trip range (pickup/dropoff radius)
+- Operating hours (24h or custom)
+- Pause availability (immediate + scheduled)
+- Booking log with search/filters
+- Trip Issues & Ratings (3 tabs)
+- Financial statements
+- My Account (6 tabs: company, contact, authorised contacts, licence, payment, password)
+- Price checker / top routes
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Admin Panel
+- Dashboard with real-time stats
+- Operator management (approve/reject/suspend/tier/commission)
+- Booking management with admin notes
+- Revenue dashboard with period filtering
+- Dispute management with message thread
+- User management (activate/deactivate)
+- Fleet type management
+- System settings
+- Trip issues overview
+- Statement management
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Platform
+- Role-based access (passenger, operator, driver, admin)
+- UK Postcode validation
+- VAT calculation service (20%)
+- Cancellation policy engine (5-tier time-based refunds)
+- Printable invoice with VAT breakdown
+- 8 email notification types (queued)
+- Stripe Checkout + webhook handling + refunds
+- Cookie consent banner (GDPR)
+- Privacy Policy, Terms of Service, Cookie Policy pages
+- SEO meta tags + sitemap.xml + robots.txt
+- Security headers (X-Frame-Options, CSP, etc.)
+- Rate limiting (search: 10/min, booking: 5/min)
+- Configurable brand name + logo via .env
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Database
 
-## Laravel Sponsors
+37 tables covering:
+- Users & auth (4 tables)
+- Operators & fleet (4 tables)
+- Drivers (1 table)
+- Pricing (8 tables: PMP, LP, PAP, meet & greet, flash sales, dead leg, free pickup)
+- Availability (6 tables)
+- Quotes & bookings (3 tables)
+- Payments (1 table)
+- Reviews & issues (3 tables)
+- Disputes (2 tables)
+- Statements (2 tables)
+- Notifications (2 tables)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Seeded Data
 
-### Premium Partners
+- 8 fleet types (1-4 passengers through 15-16 passengers)
+- 123 UK postcode areas with coordinates
+- 59 meet & greet locations (airports, stations, ports)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Testing
 
-## Contributing
+```bash
+php artisan test
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+195 tests, 405 assertions covering:
+- Pricing calculators (PMP, LP, PAP) - 49 unit tests
+- Quote engine + availability checker - 13 unit tests
+- VAT service - 14 unit tests
+- Cancellation service - 12 unit tests
+- UK postcode helper - 18 unit tests
+- Auth flow - 10 feature tests
+- Booking lifecycle - 14 feature tests
+- Operator account/pricing/availability - 28 feature tests
+- Admin panel - 14 feature tests
+- Passenger portal - 5 feature tests
 
-## Code of Conduct
+## Quick Start
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+# Clone
+git clone https://github.com/s4rt4/taxi-aggregator.git
+cd taxi-aggregator
 
-## Security Vulnerabilities
+# Install
+composer install
+npm install
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Configure
+cp .env.example .env
+php artisan key:generate
+
+# Set in .env:
+# DB_CONNECTION=mysql
+# DB_DATABASE=taxi_aggregator
+# GOOGLE_MAPS_API_KEY=your_key
+# STRIPE_KEY=pk_test_...
+# STRIPE_SECRET=sk_test_...
+
+# Database
+php artisan migrate --seed
+
+# Build & serve
+npm run build
+php artisan serve
+```
+
+### Test Accounts
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@test.com | password |
+| Operator | operator@test.com | password |
+| Passenger | passenger@test.com | password |
+
+## Configuration
+
+```env
+APP_NAME=TaxiAggregator
+APP_BRAND_PREFIX=taxi
+APP_BRAND_HIGHLIGHT=aggregat
+APP_BRAND_SUFFIX=or
+APP_BRAND_LOGO=              # path to logo image (optional)
+```
+
+## Routes
+
+115+ routes across 4 role areas:
+- Public: homepage, search, legal pages, sitemap
+- Passenger: booking flow, portal, profile, notifications, invoices
+- Operator: 18+ dashboard pages with full CRUD
+- Admin: operators, bookings, revenue, disputes, users, settings
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Proprietary. All rights reserved.
