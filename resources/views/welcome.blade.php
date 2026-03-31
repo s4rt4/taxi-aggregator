@@ -15,8 +15,14 @@
                 <div class="card shadow-lg border-0">
                     <div class="card-body p-4">
                         <h5 class="card-title text-dark fw-semibold mb-3">Get a Quote</h5>
-                        <form action="{{ route('search') }}" method="POST">
+                        <form action="{{ route('search') }}" method="POST" id="search-form">
                             @csrf
+                            <input type="hidden" name="pickup_lat" value="{{ old('pickup_lat', 0) }}">
+                            <input type="hidden" name="pickup_lng" value="{{ old('pickup_lng', 0) }}">
+                            <input type="hidden" name="destination_lat" value="{{ old('destination_lat', 0) }}">
+                            <input type="hidden" name="destination_lng" value="{{ old('destination_lng', 0) }}">
+                            <input type="hidden" name="distance_miles" value="{{ old('distance_miles', 0) }}">
+                            <input type="hidden" name="estimated_duration_minutes" value="{{ old('estimated_duration_minutes', 0) }}">
                             <div class="mb-3">
                                 <label class="form-label small fw-semibold text-dark">Pickup Location</label>
                                 <div class="input-group">
@@ -162,3 +168,63 @@
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script>
+    let pickupAutocomplete, destinationAutocomplete;
+    let pickupPlace, destinationPlace;
+
+    function initAutocomplete() {
+        const options = {
+            componentRestrictions: { country: 'gb' },
+            fields: ['formatted_address', 'geometry', 'name']
+        };
+
+        const pickupInput = document.querySelector('input[name="pickup_address"]');
+        const destInput = document.querySelector('input[name="destination_address"]');
+
+        pickupAutocomplete = new google.maps.places.Autocomplete(pickupInput, options);
+        destinationAutocomplete = new google.maps.places.Autocomplete(destInput, options);
+
+        pickupAutocomplete.addListener('place_changed', () => {
+            pickupPlace = pickupAutocomplete.getPlace();
+            if (pickupPlace.geometry) {
+                document.querySelector('input[name="pickup_lat"]').value = pickupPlace.geometry.location.lat();
+                document.querySelector('input[name="pickup_lng"]').value = pickupPlace.geometry.location.lng();
+            }
+        });
+
+        destinationAutocomplete.addListener('place_changed', () => {
+            destinationPlace = destinationAutocomplete.getPlace();
+            if (destinationPlace.geometry) {
+                document.querySelector('input[name="destination_lat"]').value = destinationPlace.geometry.location.lat();
+                document.querySelector('input[name="destination_lng"]').value = destinationPlace.geometry.location.lng();
+            }
+        });
+
+        // Calculate distance on form submit
+        document.querySelector('#search-form').addEventListener('submit', function(e) {
+            if (pickupPlace && destinationPlace && pickupPlace.geometry && destinationPlace.geometry) {
+                e.preventDefault();
+                const service = new google.maps.DistanceMatrixService();
+                service.getDistanceMatrix({
+                    origins: [pickupPlace.geometry.location],
+                    destinations: [destinationPlace.geometry.location],
+                    travelMode: 'DRIVING',
+                    unitSystem: google.maps.UnitSystem.IMPERIAL,
+                }, (response, status) => {
+                    if (status === 'OK' && response.rows[0].elements[0].status === 'OK') {
+                        const element = response.rows[0].elements[0];
+                        const miles = element.distance.value / 1609.344; // meters to miles
+                        const minutes = Math.ceil(element.duration.value / 60);
+                        document.querySelector('input[name="distance_miles"]').value = miles.toFixed(2);
+                        document.querySelector('input[name="estimated_duration_minutes"]').value = minutes;
+                    }
+                    document.querySelector('#search-form').submit();
+                });
+            }
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.api_key') }}&libraries=places&callback=initAutocomplete" async defer></script>
+@endpush

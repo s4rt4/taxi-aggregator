@@ -4,9 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="google-maps-key" content="{{ config('services.google_maps.api_key') }}">
     @include('components.seo-meta')
     <title>@yield('title', config('app.name', 'TaxiAggregator'))</title>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    {{-- Ensure Google Maps autocomplete dropdown appears above Bootstrap modals/cards --}}
+    <style>
+        .pac-container {
+            z-index: 10501 !important;
+        }
+    </style>
     @stack('styles')
 </head>
 <body>

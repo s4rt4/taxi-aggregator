@@ -15,11 +15,17 @@ class SearchController extends Controller
             'pickup_date' => 'required|date|after_or_equal:today',
             'pickup_time' => 'required',
             'passengers' => 'required|integer|min:1|max:16',
+            'pickup_lat' => 'nullable|numeric',
+            'pickup_lng' => 'nullable|numeric',
+            'destination_lat' => 'nullable|numeric',
+            'destination_lng' => 'nullable|numeric',
+            'distance_miles' => 'nullable|numeric|min:0',
+            'estimated_duration_minutes' => 'nullable|integer|min:0',
         ]);
 
-        // For now, use mock distance since Google Maps API isn't integrated yet
-        // In production, this would call Google Distance Matrix API
-        $distanceMiles = 15.0; // placeholder
+        // Use real distance from Google Maps Distance Matrix if available, otherwise fallback
+        $distanceMiles = max(1, (float) $request->input('distance_miles', 15));
+        $estimatedMinutes = max(5, (int) $request->input('estimated_duration_minutes', 30));
 
         $pickupDatetime = $request->pickup_date . ' ' . $request->pickup_time;
 
@@ -27,18 +33,18 @@ class SearchController extends Controller
             'user_id' => auth()->id(),
             'session_id' => session()->getId(),
             'pickup_address' => $request->pickup_address,
-            'pickup_lat' => 0, // placeholder for Google Maps
-            'pickup_lng' => 0,
-            'pickup_postcode' => '', // placeholder for Google Maps
+            'pickup_lat' => $request->input('pickup_lat', 0),
+            'pickup_lng' => $request->input('pickup_lng', 0),
+            'pickup_postcode' => '',
             'destination_address' => $request->destination_address,
-            'destination_lat' => 0,
-            'destination_lng' => 0,
-            'destination_postcode' => '', // placeholder for Google Maps
+            'destination_lat' => $request->input('destination_lat', 0),
+            'destination_lng' => $request->input('destination_lng', 0),
+            'destination_postcode' => '',
             'pickup_datetime' => $pickupDatetime,
             'passenger_count' => $request->passengers,
             'luggage_count' => $request->input('luggage', 0),
             'distance_miles' => $distanceMiles,
-            'estimated_duration_minutes' => 30, // placeholder
+            'estimated_duration_minutes' => $estimatedMinutes,
             'is_return' => false,
             'ip_address' => $request->ip(),
         ]);
