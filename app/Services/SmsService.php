@@ -9,30 +9,33 @@ class SmsService
 {
     public static function send(string $to, string $message): bool
     {
-        // Skip if not configured
-        if (!config('services.vonage.key') || config('services.vonage.key') === 'your_key') {
+        $sid = config('services.twilio.sid');
+        $token = config('services.twilio.token');
+
+        if (!$sid || !$token || $sid === 'your_sid') {
             Log::info("SMS (skipped - not configured): To: {$to} | {$message}");
             return false;
         }
 
         try {
-            $response = Http::post('https://rest.nexmo.com/sms/json', [
-                'from' => config('services.vonage.sms_from'),
-                'text' => $message,
-                'to' => self::formatUkNumber($to),
-                'api_key' => config('services.vonage.key'),
-                'api_secret' => config('services.vonage.secret'),
-            ]);
+            $from = config('services.twilio.from');
+            $toFormatted = '+' . self::formatUkNumber($to);
 
-            $data = $response->json();
-            $status = $data['messages'][0]['status'] ?? '1';
+            $response = Http::withBasicAuth($sid, $token)
+                ->asForm()
+                ->post("https://api.twilio.com/2010-04-01/Accounts/{$sid}/Messages.json", [
+                    'From' => $from,
+                    'To' => $toFormatted,
+                    'Body' => $message,
+                ]);
 
-            if ($status === '0') {
-                Log::info("SMS sent to {$to}");
+            if ($response->successful()) {
+                $data = $response->json();
+                Log::info("SMS sent to {$to} | SID: " . ($data['sid'] ?? 'N/A'));
                 return true;
             }
 
-            Log::warning("SMS failed to {$to}: " . ($data['messages'][0]['error-text'] ?? 'Unknown error'));
+            Log::warning("SMS failed to {$to}: " . $response->body());
             return false;
         } catch (\Exception $e) {
             Log::error("SMS exception: " . $e->getMessage());

@@ -36,8 +36,8 @@ class SmsServiceTest extends TestCase
     {
         // When Vonage key is not configured (default 'your_key' or empty),
         // the send method should return false without attempting an API call.
-        config(['services.vonage.key' => 'your_key']);
-        config(['services.vonage.secret' => 'your_secret']);
+        config(['services.twilio.sid' => 'your_sid']);
+        config(['services.twilio.token' => 'your_token']);
 
         $result = SmsService::send('07123456789', 'Test message');
 
