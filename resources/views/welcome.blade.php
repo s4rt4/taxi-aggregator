@@ -402,48 +402,43 @@
 @endsection
 
 @push('scripts')
+<script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.api_key') }}&libraries=places&callback=initMaps" async defer></script>
 <script>
-(async function() {
-    // Wait for Google Maps to load
-    const { Place } = await google.maps.importLibrary('places');
-    const { DistanceMatrixService } = await google.maps.importLibrary('routes');
-
+function initMaps() {
     let pickupPlace = null, destinationPlace = null;
 
-    // Setup autocomplete for pickup
     const pickupInput = document.querySelector('input[name="pickup_address"]');
     const destInput = document.querySelector('input[name="destination_address"]');
     if (!pickupInput || !destInput) return;
 
-    function setupAutocomplete(inputEl, onSelect) {
-        const autocomplete = new google.maps.places.Autocomplete(inputEl, {
-            componentRestrictions: { country: 'gb' },
-            fields: ['formatted_address', 'geometry', 'name'],
-        });
-        autocomplete.addListener('place_changed', () => {
-            const place = autocomplete.getPlace();
-            if (place && place.geometry) onSelect(place);
-        });
-    }
+    const options = {
+        componentRestrictions: { country: 'gb' },
+        fields: ['formatted_address', 'geometry', 'name'],
+    };
 
-    setupAutocomplete(pickupInput, (place) => {
-        pickupPlace = place;
-        document.querySelector('input[name="pickup_lat"]').value = place.geometry.location.lat();
-        document.querySelector('input[name="pickup_lng"]').value = place.geometry.location.lng();
+    const pickupAc = new google.maps.places.Autocomplete(pickupInput, options);
+    const destAc = new google.maps.places.Autocomplete(destInput, options);
+
+    pickupAc.addListener('place_changed', () => {
+        pickupPlace = pickupAc.getPlace();
+        if (pickupPlace.geometry) {
+            document.querySelector('input[name="pickup_lat"]').value = pickupPlace.geometry.location.lat();
+            document.querySelector('input[name="pickup_lng"]').value = pickupPlace.geometry.location.lng();
+        }
     });
 
-    setupAutocomplete(destInput, (place) => {
-        destinationPlace = place;
-        document.querySelector('input[name="destination_lat"]').value = place.geometry.location.lat();
-        document.querySelector('input[name="destination_lng"]').value = place.geometry.location.lng();
+    destAc.addListener('place_changed', () => {
+        destinationPlace = destAc.getPlace();
+        if (destinationPlace.geometry) {
+            document.querySelector('input[name="destination_lat"]').value = destinationPlace.geometry.location.lat();
+            document.querySelector('input[name="destination_lng"]').value = destinationPlace.geometry.location.lng();
+        }
     });
 
-    // Calculate distance on form submit
     document.querySelector('#search-form').addEventListener('submit', function(e) {
-        if (pickupPlace && destinationPlace) {
+        if (pickupPlace && destinationPlace && pickupPlace.geometry && destinationPlace.geometry) {
             e.preventDefault();
-            const service = new DistanceMatrixService();
-            service.getDistanceMatrix({
+            new google.maps.DistanceMatrixService().getDistanceMatrix({
                 origins: [pickupPlace.geometry.location],
                 destinations: [destinationPlace.geometry.location],
                 travelMode: google.maps.TravelMode.DRIVING,
@@ -458,7 +453,6 @@
             });
         }
     });
-})();
+}
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.api_key') }}&libraries=places,routes&loading=async" async defer></script>
 @endpush
