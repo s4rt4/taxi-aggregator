@@ -165,6 +165,9 @@
     {{-- Cookie Consent --}}
     @include('components.cookie-consent')
 
+    {{-- Real-time Toast Notifications --}}
+    @include('components.realtime-toast')
+
     @stack('scripts')
 </body>
 </html>

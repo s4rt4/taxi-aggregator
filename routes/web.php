@@ -30,6 +30,7 @@ use App\Http\Controllers\Operator\BookingController as OperatorBookingController
 use App\Http\Controllers\Operator\DashboardController as OperatorDashboardController;
 use App\Http\Controllers\Operator\DriverController as OperatorDriverController;
 use App\Http\Controllers\Operator\IssueController as OperatorIssueController;
+use App\Http\Controllers\Operator\OnboardingController as OperatorOnboardingController;
 use App\Http\Controllers\Operator\PriceCheckerController as OperatorPriceCheckerController;
 use App\Http\Controllers\Operator\PricingController as OperatorPricingController;
 use App\Http\Controllers\Operator\StatementController as OperatorStatementController;
@@ -115,6 +116,16 @@ Route::middleware('auth')->group(function () {
 
 // Operator routes
 Route::middleware(['auth', 'role:operator'])->prefix('operator')->name('operator.')->group(function () {
+    // Onboarding
+    Route::get('onboarding', [OperatorOnboardingController::class, 'index'])->name('onboarding');
+    Route::get('onboarding/step/{step}', [OperatorOnboardingController::class, 'step'])->name('onboarding.step');
+    Route::post('onboarding/step/1', [OperatorOnboardingController::class, 'saveStep1'])->name('onboarding.save-step1');
+    Route::post('onboarding/step/2', [OperatorOnboardingController::class, 'saveStep2'])->name('onboarding.save-step2');
+    Route::post('onboarding/step/3', [OperatorOnboardingController::class, 'saveStep3'])->name('onboarding.save-step3');
+    Route::post('onboarding/step/4', [OperatorOnboardingController::class, 'saveStep4'])->name('onboarding.save-step4');
+    Route::post('onboarding/step/5', [OperatorOnboardingController::class, 'saveStep5'])->name('onboarding.save-step5');
+    Route::get('onboarding/complete', [OperatorOnboardingController::class, 'complete'])->name('onboarding.complete');
+
     // Dashboard
     Route::get('dashboard', [OperatorDashboardController::class, 'index'])->name('dashboard');
 

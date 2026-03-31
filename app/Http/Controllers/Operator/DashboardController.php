@@ -11,6 +11,11 @@ class DashboardController extends Controller
     {
         $operator = auth()->user()->operator;
 
+        // Redirect new operators to onboarding if they haven't completed setup
+        if (!$operator || !$operator->operator_name || !$operator->licence_number) {
+            return redirect()->route('operator.onboarding');
+        }
+
         $stats = [
             'total_jobs' => $operator?->bookings()->count() ?? 0,
             'completed' => $operator?->bookings()->where('status', 'completed')->count() ?? 0,

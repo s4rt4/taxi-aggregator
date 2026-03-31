@@ -183,6 +183,9 @@
         </div>
     </div>
 
+    {{-- Real-time Toast Notifications --}}
+    @include('components.realtime-toast')
+
     @stack('scripts')
 </body>
 </html>
