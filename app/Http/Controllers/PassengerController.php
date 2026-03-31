@@ -6,6 +6,7 @@ use App\Listeners\SendBookingNotifications;
 use App\Models\Booking;
 use App\Models\Review;
 use App\Notifications\NewReviewReceived;
+use App\Services\CancellationService;
 use Illuminate\Http\Request;
 
 class PassengerController extends Controller
@@ -34,6 +35,8 @@ class PassengerController extends Controller
         abort_unless($booking->passenger_id === auth()->id(), 403);
         abort_unless(in_array($booking->status, ['pending', 'accepted']), 400);
 
+        $refundInfo = CancellationService::getRefundAmount($booking);
+
         $booking->update([
             'status' => 'cancelled',
             'cancelled_by' => 'passenger',
@@ -44,7 +47,8 @@ class PassengerController extends Controller
         // Notify operator of cancellation
         SendBookingNotifications::onBookingCancelled($booking, 'passenger', $request->input('reason'));
 
-        return redirect()->route('passenger.bookings')->with('success', 'Booking cancelled successfully.');
+        return redirect()->route('passenger.bookings')
+            ->with('success', "Booking cancelled. {$refundInfo['policy']} ({$refundInfo['refund_percent']}% = £{$refundInfo['refund_amount']})");
     }
 
     public function storeReview(Request $request, Booking $booking)

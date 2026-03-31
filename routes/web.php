@@ -14,8 +14,10 @@ use App\Http\Controllers\Admin\RevenueController as AdminRevenueController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\StatementController as AdminStatementController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\AccountDeletionController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PassengerController;
@@ -95,6 +97,9 @@ Route::middleware('auth')->group(function () {
     Route::post('notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
     Route::post('notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
 
+    // Invoice
+    Route::get('/invoice/{booking}', [InvoiceController::class, 'show'])->name('invoice.show');
+
     // Passenger portal
     Route::prefix('my')->name('passenger.')->group(function () {
         Route::get('bookings', [PassengerController::class, 'bookings'])->name('bookings');
@@ -103,6 +108,8 @@ Route::middleware('auth')->group(function () {
         Route::post('bookings/{booking}/review', [PassengerController::class, 'storeReview'])->name('store-review');
         Route::get('profile', [PassengerController::class, 'profile'])->name('profile');
         Route::post('profile', [PassengerController::class, 'updateProfile'])->name('update-profile');
+        Route::get('delete-account', [AccountDeletionController::class, 'request'])->name('delete-account');
+        Route::post('delete-account', [AccountDeletionController::class, 'destroy'])->name('delete-account.confirm');
     });
 });
 

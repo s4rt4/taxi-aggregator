@@ -293,6 +293,13 @@
                     <div class="text-muted small mt-1">
                         Payment: {{ ucfirst($booking->payment_type) }}
                     </div>
+
+                    {{-- Invoice Link --}}
+                    <div class="mt-3">
+                        <a href="{{ route('invoice.show', $booking) }}" class="btn btn-outline-primary btn-sm w-100" target="_blank">
+                            <i class="bi bi-receipt me-1"></i>View Invoice
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -301,6 +308,10 @@
 
 {{-- Cancel Modal --}}
 @if(in_array($booking->status, ['pending', 'accepted']))
+@php
+    $refundInfo = \App\Services\CancellationService::getRefundAmount($booking);
+    $policyText = \App\Services\CancellationService::getPolicyText();
+@endphp
 <div class="modal fade" id="cancelModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -312,6 +323,31 @@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to cancel booking <strong>{{ $booking->reference }}</strong>?</p>
+
+                    {{-- Expected Refund --}}
+                    <div class="alert alert-info">
+                        <strong>Expected refund:</strong>
+                        &pound;{{ number_format($refundInfo['refund_amount'], 2) }}
+                        ({{ $refundInfo['refund_percent'] }}% - {{ $refundInfo['policy'] }})
+                    </div>
+
+                    {{-- Cancellation Policy --}}
+                    <div class="mb-3">
+                        <button class="btn btn-sm btn-outline-secondary" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#cancellationPolicy">
+                            <i class="bi bi-info-circle me-1"></i>View Cancellation Policy
+                        </button>
+                        <div class="collapse mt-2" id="cancellationPolicy">
+                            <div class="card card-body small">
+                                <ul class="mb-0 ps-3">
+                                    @foreach($policyText as $line)
+                                        <li>{{ $line }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="mb-3">
                         <label for="cancel-reason" class="form-label">Reason for cancellation <small class="text-muted">(optional)</small></label>
                         <textarea class="form-control" id="cancel-reason" name="reason" rows="3"
