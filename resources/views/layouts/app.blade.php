@@ -86,14 +86,79 @@
     @yield('content')
 
     {{-- Footer --}}
-    <footer class="bg-dark text-light py-4 mt-5">
-        <div class="container text-center">
-            <div class="mb-2">
-                <a href="{{ route('privacy-policy') }}" class="text-light text-decoration-none small me-3">Privacy Policy</a>
-                <a href="{{ route('terms-of-service') }}" class="text-light text-decoration-none small me-3">Terms of Service</a>
-                <a href="{{ route('cookie-policy') }}" class="text-light text-decoration-none small">Cookie Policy</a>
+    <footer class="bg-dark text-light pt-5 pb-3">
+        <div class="container">
+            {{-- Top links row --}}
+            <div class="row g-4 mb-4">
+                <div class="col-6 col-md-2">
+                    <h6 class="fw-bold text-white small text-uppercase mb-3">Company</h6>
+                    <ul class="list-unstyled small">
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">About Us</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">How It Works</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">For Operators</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Blog</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Careers</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2">
+                    <h6 class="fw-bold text-white small text-uppercase mb-3">Support</h6>
+                    <ul class="list-unstyled small">
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Help Centre</a></li>
+                        <li class="mb-1"><a href="{{ route('privacy-policy') }}" class="text-secondary text-decoration-none">Privacy Policy</a></li>
+                        <li class="mb-1"><a href="{{ route('terms-of-service') }}" class="text-secondary text-decoration-none">Terms & Conditions</a></li>
+                        <li class="mb-1"><a href="{{ route('cookie-policy') }}" class="text-secondary text-decoration-none">Cookie Policy</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Accessibility</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2">
+                    <h6 class="fw-bold text-white small text-uppercase mb-3">Popular Cities</h6>
+                    <ul class="list-unstyled small">
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">London</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Manchester</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Birmingham</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Edinburgh</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Glasgow</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Liverpool</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2">
+                    <h6 class="fw-bold text-white small text-uppercase mb-3">Airports</h6>
+                    <ul class="list-unstyled small">
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Heathrow</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Gatwick</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Manchester</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Stansted</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Luton</a></li>
+                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Edinburgh</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-4">
+                    <h6 class="fw-bold text-white small text-uppercase mb-3">Contact & Social</h6>
+                    <ul class="list-unstyled small mb-3">
+                        <li class="mb-1"><i class="bi bi-envelope me-2 text-secondary"></i><a href="mailto:support@{{ strtolower(config('app.name')) }}.co.uk" class="text-secondary text-decoration-none">support@{{ strtolower(config('app.name')) }}.co.uk</a></li>
+                        <li class="mb-1"><i class="bi bi-telephone me-2 text-secondary"></i><span class="text-secondary">0800 123 4567</span></li>
+                        <li class="mb-1"><i class="bi bi-clock me-2 text-secondary"></i><span class="text-secondary">24/7 Customer Support</span></li>
+                    </ul>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-secondary fs-5"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-secondary fs-5"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="text-secondary fs-5"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-secondary fs-5"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
             </div>
-            <p class="mb-0 small">&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
+
+            {{-- Bottom bar --}}
+            <hr class="border-secondary mb-3">
+            <div class="d-flex flex-wrap justify-content-between align-items-center small text-secondary">
+                <span>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</span>
+                <span>
+                    <a href="{{ route('privacy-policy') }}" class="text-secondary text-decoration-none me-2">Privacy</a> |
+                    <a href="{{ route('terms-of-service') }}" class="text-secondary text-decoration-none mx-2">Terms</a> |
+                    <a href="{{ route('cookie-policy') }}" class="text-secondary text-decoration-none ms-2">Cookies</a>
+                </span>
+            </div>
         </div>
     </footer>
 
