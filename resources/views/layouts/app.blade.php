@@ -32,13 +32,13 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarMain">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
                     @guest
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">Log In</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="btn btn-primary btn-sm ms-2" href="{{ route('register') }}">Register</a>
+                        <li class="nav-item ms-2">
+                            <a class="btn btn-primary btn-sm" href="{{ route('register') }}">Register</a>
                         </li>
                     @else
                         <li class="nav-item dropdown">
