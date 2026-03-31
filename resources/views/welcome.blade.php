@@ -97,52 +97,71 @@
 </section>
 
 {{-- How it Works --}}
-<section class="py-4 bg-light">
+<section class="py-5 bg-light">
     <div class="container">
-        <h2 class="text-center fw-bold mb-1" style="font-size:1.25rem;">How it works</h2>
-        <p class="text-center text-muted small mb-4">It's as easy as 1-2-3. Compare prices and book a taxi in just 3 simple steps</p>
-        <div class="row g-4 text-center">
+        <h2 class="text-center fw-bold mb-2">How it works</h2>
+        <p class="text-center text-muted mb-5">It's as easy as 1-2-3. Compare prices and book a taxi in just 3 simple steps</p>
+        <div class="row g-4">
+            @php
+                $steps = [
+                    ['icon' => 'bi-geo-alt-fill', 'color' => '#e74c3c', 'bg' => 'rgba(231,76,60,0.1)', 'title' => 'Tell us your route', 'desc' => 'Enter your pickup and drop-off locations, date and number of passengers'],
+                    ['icon' => 'bi-bar-chart-line-fill', 'color' => '#3498db', 'bg' => 'rgba(52,152,219,0.1)', 'title' => 'Compare your quotes', 'desc' => 'Browse quotes from multiple operators side by side, sorted by price or rating'],
+                    ['icon' => 'bi-credit-card-fill', 'color' => '#27ae60', 'bg' => 'rgba(39,174,96,0.1)', 'title' => 'Book securely online', 'desc' => 'Pay securely with Stripe. Receive instant confirmation and driver details'],
+                ];
+            @endphp
+            @foreach($steps as $i => $step)
             <div class="col-md-4">
-                <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width:40px;height:40px;"><span class="fw-bold">1</span></div>
-                <h6 class="fw-semibold">Tell us your route</h6>
-                <p class="text-muted small mb-0">Enter your pickup and drop-off locations, date and number of passengers</p>
+                <div class="card border-0 shadow-sm h-100 text-center p-4 position-relative overflow-hidden">
+                    {{-- Step number watermark --}}
+                    <div class="position-absolute top-0 end-0 pe-3 pt-1" style="font-size:4rem;font-weight:900;color:rgba(0,0,0,0.04);line-height:1;">{{ $i + 1 }}</div>
+                    {{-- Icon --}}
+                    <div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:72px;height:72px;background:{{ $step['bg'] }};">
+                        <i class="bi {{ $step['icon'] }}" style="font-size:1.75rem;color:{{ $step['color'] }};"></i>
+                    </div>
+                    {{-- Step label --}}
+                    <div class="mb-2">
+                        <span class="badge rounded-pill text-white px-3 py-1" style="background:{{ $step['color'] }};">Step {{ $i + 1 }}</span>
+                    </div>
+                    <h5 class="fw-bold mb-2">{{ $step['title'] }}</h5>
+                    <p class="text-muted mb-0">{{ $step['desc'] }}</p>
+                </div>
             </div>
-            <div class="col-md-4">
-                <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width:40px;height:40px;"><span class="fw-bold">2</span></div>
-                <h6 class="fw-semibold">Compare your quotes</h6>
-                <p class="text-muted small mb-0">Browse quotes from multiple operators side by side, sorted by price or rating</p>
-            </div>
-            <div class="col-md-4">
-                <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width:40px;height:40px;"><span class="fw-bold">3</span></div>
-                <h6 class="fw-semibold">Book securely online</h6>
-                <p class="text-muted small mb-0">Pay securely with Stripe. Receive instant confirmation and driver details</p>
+            @endforeach
+        </div>
+        {{-- Connecting arrows (desktop only) --}}
+        <div class="d-none d-md-flex justify-content-center mt-4 gap-5">
+            <div class="text-center">
+                <i class="bi bi-arrow-right fs-3 text-muted opacity-25"></i>
             </div>
         </div>
     </div>
 </section>
 
 {{-- Stats / Numbers --}}
-<section class="py-4 bg-white">
+<section class="py-5" style="background: linear-gradient(135deg, #1a2332 0%, #2d3e50 100%);">
     <div class="container">
-        <h2 class="text-center fw-bold mb-1" style="font-size:1.25rem;">{{ config('app.name') }} in numbers</h2>
-        <p class="text-center text-muted small mb-4">Trusted by passengers and operators across the United Kingdom</p>
-        <div class="row g-3 text-center">
+        <h2 class="text-center fw-bold text-white mb-2">{{ config('app.name') }} in numbers</h2>
+        <p class="text-center text-white-50 mb-5">Trusted by passengers and operators across the United Kingdom</p>
+        <div class="row g-4 text-center">
+            @php
+                $stats = [
+                    ['value' => '500+', 'label' => 'Licensed Operators', 'icon' => 'bi-building', 'color' => '#3498db'],
+                    ['value' => '124', 'label' => 'UK Postcode Areas', 'icon' => 'bi-map', 'color' => '#e74c3c'],
+                    ['value' => '59', 'label' => 'Airports & Stations', 'icon' => 'bi-airplane', 'color' => '#f39c12'],
+                    ['value' => '4.7/5', 'label' => 'Average Rating', 'icon' => 'bi-star-fill', 'color' => '#27ae60'],
+                ];
+            @endphp
+            @foreach($stats as $stat)
             <div class="col-6 col-md-3">
-                <div class="display-6 fw-bold text-primary">500+</div>
-                <div class="small text-muted">Licensed Operators</div>
+                <div class="card border-0 bg-white bg-opacity-10 rounded-3 p-4" style="backdrop-filter:blur(4px);">
+                    <div class="mx-auto mb-2 d-flex align-items-center justify-content-center rounded-circle" style="width:56px;height:56px;background:{{ $stat['color'] }}20;">
+                        <i class="bi {{ $stat['icon'] }}" style="font-size:1.5rem;color:{{ $stat['color'] }};"></i>
+                    </div>
+                    <div class="display-6 fw-bold text-white mb-1">{{ $stat['value'] }}</div>
+                    <div class="small text-white-50">{{ $stat['label'] }}</div>
+                </div>
             </div>
-            <div class="col-6 col-md-3">
-                <div class="display-6 fw-bold text-primary">124</div>
-                <div class="small text-muted">UK Postcode Areas</div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="display-6 fw-bold text-primary">59</div>
-                <div class="small text-muted">Airports & Stations</div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="display-6 fw-bold text-primary">4.7<small class="fs-6">/5</small></div>
-                <div class="small text-muted">Average Rating</div>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>
