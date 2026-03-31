@@ -1,0 +1,28 @@
+// Bootstrap 5 - Custom Variables
+$primary: #1a73e8;
+$secondary: #6c757d;
+$success: #28a745;
+$danger: #dc3545;
+$warning: #ffc107;
+$info: #17a2b8;
+
+// Minicabit Sidebar Colors
+$sidebar-width: 220px;
+$sidebar-bg: #1a2332;
+$sidebar-color: #8899aa;
+$sidebar-accent: #00bcd4;
+$sidebar-active-bg: rgba(0, 188, 212, 0.1);
+$sidebar-section-color: #00bcd4;
+$sidebar-hover-color: #ffffff;
+
+// Import Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+// Import Bootstrap Icons
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+// Custom styles
+@import "components/sidebar";
+@import "components/dashboard";
+@import "components/topbar";
+@import "pages/auth";

@@ -53,7 +53,7 @@ return new class extends Migration
             $table->unsignedInteger('estimated_duration_minutes');
             $table->boolean('meet_and_greet')->default(false);
             $table->foreignId('flash_sale_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('dead_leg_discount_id')->nullable()->constrained('dead_leg_discounts')->nullOnDelete();
+            $table->unsignedBigInteger('dead_leg_discount_id')->nullable();
             $table->boolean('is_available')->default(true);
             $table->timestamp('expires_at');
             $table->timestamps();

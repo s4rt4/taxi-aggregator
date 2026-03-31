@@ -11,7 +11,16 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->validateCsrfTokens(except: ['webhooks/*']);
+
+        $middleware->alias([
+            'role' => \App\Http\Middleware\Role::class,
+            'active' => \App\Http\Middleware\ActiveUser::class,
+        ]);
+
+        $middleware->web(append: [
+            \App\Http\Middleware\ActiveUser::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

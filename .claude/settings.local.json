@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install bootstrap@5 @popperjs/core sass alpinejs bootstrap-icons)",
+      "Bash(npm uninstall tailwindcss autoprefixer postcss)",
+      "Bash(npm run build)",
+      "Bash(php artisan route:list --compact)",
+      "Bash(composer install)"
+    ]
+  }
+}

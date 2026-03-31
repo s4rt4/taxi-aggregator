@@ -13,7 +13,14 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'TaxiAggregator'),
+
+    'brand' => [
+        'prefix' => env('APP_BRAND_PREFIX', 'taxi'),
+        'highlight' => env('APP_BRAND_HIGHLIGHT', 'aggregat'),
+        'suffix' => env('APP_BRAND_SUFFIX', 'or'),
+        'logo' => env('APP_BRAND_LOGO', ''),
+    ],
 
     /*
     |--------------------------------------------------------------------------

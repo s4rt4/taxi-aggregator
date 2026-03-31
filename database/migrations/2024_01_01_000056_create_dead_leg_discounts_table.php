@@ -25,8 +25,8 @@ return new class extends Migration
             $table->enum('discount_type', ['percentage', 'fixed'])->default('percentage');
             $table->decimal('discount_value', 8, 2);
             $table->enum('status', ['active', 'claimed', 'expired', 'disabled'])->default('active');
-            $table->foreignId('original_booking_id')->nullable()->constrained('bookings')->nullOnDelete();
-            $table->foreignId('dld_booking_id')->nullable()->constrained('bookings')->nullOnDelete()->comment('Booking that claimed this DLD');
+            $table->unsignedBigInteger('original_booking_id')->nullable();
+            $table->unsignedBigInteger('dld_booking_id')->nullable()->comment('Booking that claimed this DLD');
             $table->timestamps();
 
             $table->index(['operator_id', 'status']);

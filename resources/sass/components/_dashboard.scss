@@ -1,0 +1,67 @@
+// Dashboard cards & components
+.stat-card {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.15s ease;
+
+    &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .stat-label {
+        font-size: 0.8125rem;
+        color: #64748b;
+    }
+}
+
+// Page header
+.page-header {
+    margin-bottom: 1.5rem;
+
+    h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+    }
+
+    .breadcrumb {
+        font-size: 0.8125rem;
+        margin-bottom: 0;
+    }
+}
+
+// Content wrapper
+.content-wrapper {
+    padding: 1.5rem;
+}
+
+// Tier badge
+.tier-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    &.tier-basic { background: #f1f5f9; color: #475569; }
+    &.tier-airport { background: #dbeafe; color: #1d4ed8; }
+    &.tier-top { background: #fef3c7; color: #92400e; }
+}
