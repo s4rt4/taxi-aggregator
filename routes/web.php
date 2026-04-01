@@ -23,6 +23,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\IcabbiWebhookController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\Operator\AccountController as OperatorAccountController;
 use App\Http\Controllers\Operator\AvailabilityController as OperatorAvailabilityController;
@@ -56,6 +57,7 @@ Route::get('/sitemap.xml', function () {
 
 // Webhooks (no CSRF verification)
 Route::post('/webhooks/stripe', [WebhookController::class, 'handleStripe'])->name('webhooks.stripe');
+Route::post('/webhooks/icabbi', [IcabbiWebhookController::class, 'handle'])->name('webhooks.icabbi');
 
 // Auth - Guest only
 Route::middleware('guest')->group(function () {
@@ -194,6 +196,8 @@ Route::middleware(['auth', 'role:operator'])->prefix('operator')->name('operator
     Route::post('account/licence', [OperatorAccountController::class, 'updateLicence'])->name('account.update-licence');
     Route::post('account/payment', [OperatorAccountController::class, 'updatePayment'])->name('account.update-payment');
     Route::post('account/password', [OperatorAccountController::class, 'updatePassword'])->name('account.update-password');
+    Route::post('account/icabbi', [OperatorAccountController::class, 'updateIcabbi'])->name('account.update-icabbi');
+    Route::post('account/icabbi/test', [OperatorAccountController::class, 'testIcabbiConnection'])->name('account.test-icabbi');
 });
 
 // Admin routes

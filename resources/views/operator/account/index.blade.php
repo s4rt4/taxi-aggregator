@@ -158,6 +158,9 @@
             <a class="nav-link" :class="{ 'active': activeTab === 'payment' }" href="#" @click.prevent="activeTab = 'payment'">Payment type</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" :class="{ 'active': activeTab === 'icabbi' }" href="#" @click.prevent="activeTab = 'icabbi'">iCabbi Integration</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" :class="{ 'active': activeTab === 'password' }" href="#" @click.prevent="activeTab = 'password'">Password</a>
         </li>
     </ul>
@@ -571,6 +574,96 @@
         </div>
 
         {{-- ============================================ --}}
+        {{-- TAB: iCabbi Integration --}}
+        {{-- ============================================ --}}
+        <div x-show="activeTab === 'icabbi'" x-transition x-data="icabbiSettings()">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <h6 class="fw-bold mb-0">iCabbi Dispatch Integration</h6>
+                @if($operator && $operator->icabbi_enabled)
+                    <span class="badge bg-success">Enabled</span>
+                @else
+                    <span class="badge bg-secondary">Disabled</span>
+                @endif
+            </div>
+            <p class="text-muted small mb-3">
+                Connect your iCabbi dispatch system to automatically send bookings to your fleet.
+                Bookings accepted on this platform will be dispatched directly to your iCabbi system.
+            </p>
+
+            <form method="POST" action="{{ route('operator.account.update-icabbi') }}">
+                @csrf
+
+                <div class="mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="icabbi_enabled" name="icabbi_enabled" value="1"
+                            {{ ($operator && $operator->icabbi_enabled) ? 'checked' : '' }}>
+                        <label class="form-check-label fw-semibold" for="icabbi_enabled">Enable iCabbi Dispatch</label>
+                    </div>
+                    <div class="field-note">When enabled, bookings will be automatically dispatched to your iCabbi system.</div>
+                </div>
+
+                <div class="section-divider"></div>
+
+                <h6 class="fw-bold mb-3">API Configuration</h6>
+
+                <div class="mb-3" style="max-width: 500px;">
+                    <label class="field-label" for="icabbi_api_url">API URL</label>
+                    <input type="url" class="form-control form-control-sm" id="icabbi_api_url" name="icabbi_api_url"
+                        value="{{ $operator->icabbi_api_url ?? 'https://api.icabbidispatch.com/icd/' }}"
+                        placeholder="https://api.icabbidispatch.com/icd/">
+                    <div class="field-note">The base URL for your iCabbi API instance. Leave as default unless instructed otherwise.</div>
+                </div>
+
+                <div class="mb-3" style="max-width: 500px;">
+                    <label class="field-label" for="icabbi_app_key">App Key</label>
+                    <input type="password" class="form-control form-control-sm" id="icabbi_app_key" name="icabbi_app_key"
+                        value="{{ $operator->icabbi_app_key ?? '' }}"
+                        placeholder="Enter your iCabbi App Key">
+                    <div class="field-note">Your iCabbi application key. Contact iCabbi support if you do not have one.</div>
+                </div>
+
+                <div class="mb-3" style="max-width: 500px;">
+                    <label class="field-label" for="icabbi_secret_key">Secret Key</label>
+                    <input type="password" class="form-control form-control-sm" id="icabbi_secret_key" name="icabbi_secret_key"
+                        value="{{ $operator->icabbi_secret_key ?? '' }}"
+                        placeholder="Enter your iCabbi Secret Key">
+                    <div class="field-note">Your iCabbi secret key. Keep this confidential.</div>
+                </div>
+
+                <div class="mb-3" style="max-width: 500px;">
+                    <label class="field-label" for="icabbi_integration_name">Integration Name</label>
+                    <input type="text" class="form-control form-control-sm" id="icabbi_integration_name" name="icabbi_integration_name"
+                        value="{{ $operator->icabbi_integration_name ?? '' }}"
+                        placeholder="e.g., My Taxi Company">
+                    <div class="field-note">A friendly name for this integration (optional).</div>
+                </div>
+
+                <div class="section-divider"></div>
+
+                <div class="d-flex gap-3 mt-4">
+                    <button type="submit" class="btn btn-mc-save">
+                        <i class="bi bi-check-lg me-1"></i> SAVE
+                    </button>
+                    <button type="button" class="btn btn-outline-info" @click="testConnection()" :disabled="testing">
+                        <i class="bi bi-wifi me-1"></i>
+                        <span x-text="testing ? 'Testing...' : 'Test Connection'"></span>
+                    </button>
+                    <button type="button" class="btn btn-mc-cancel" onclick="window.location.reload()">
+                        CANCEL AND DISCARD CHANGES
+                    </button>
+                </div>
+            </form>
+
+            {{-- Test connection result --}}
+            <div x-show="testResult !== null" class="mt-3">
+                <div class="alert" :class="testResult?.success ? 'alert-success' : 'alert-danger'" role="alert">
+                    <i class="bi" :class="testResult?.success ? 'bi-check-circle' : 'bi-x-circle'"></i>
+                    <span x-text="testResult?.message"></span>
+                </div>
+            </div>
+        </div>
+
+        {{-- ============================================ --}}
         {{-- TAB: Password --}}
         {{-- ============================================ --}}
         <div x-show="activeTab === 'password'" x-transition>
@@ -626,6 +719,32 @@
             },
             removeContact(index) {
                 this.contacts.splice(index, 1);
+            }
+        };
+    }
+
+    function icabbiSettings() {
+        return {
+            testing: false,
+            testResult: null,
+            async testConnection() {
+                this.testing = true;
+                this.testResult = null;
+                try {
+                    const response = await fetch('{{ route("operator.account.test-icabbi") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json',
+                        },
+                    });
+                    this.testResult = await response.json();
+                } catch (error) {
+                    this.testResult = { success: false, message: 'Network error: ' + error.message };
+                } finally {
+                    this.testing = false;
+                }
             }
         };
     }

@@ -52,6 +52,11 @@ class Operator extends Model
         'is_featured',
         'dead_leg_approved',
         'airport_approved',
+        'icabbi_enabled',
+        'icabbi_api_url',
+        'icabbi_app_key',
+        'icabbi_secret_key',
+        'icabbi_integration_name',
     ];
 
     protected function casts(): array
@@ -65,6 +70,7 @@ class Operator extends Model
             'is_featured' => 'boolean',
             'dead_leg_approved' => 'boolean',
             'airport_approved' => 'boolean',
+            'icabbi_enabled' => 'boolean',
             'base_lat' => 'decimal:7',
             'base_lng' => 'decimal:7',
             'commission_rate' => 'decimal:2',
@@ -202,6 +208,13 @@ class Operator extends Model
     public function statements()
     {
         return $this->hasMany(Statement::class);
+    }
+
+    // Dispatch helpers
+
+    public function usesIcabbi(): bool
+    {
+        return $this->icabbi_enabled && $this->icabbi_app_key && $this->icabbi_secret_key;
     }
 
     // Scopes

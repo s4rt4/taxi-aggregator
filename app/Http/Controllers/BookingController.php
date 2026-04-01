@@ -89,6 +89,9 @@ class BookingController extends Controller
         // Dispatch notifications to passenger and operator
         SendBookingNotifications::onBookingCreated($booking);
 
+        // Dispatch to iCabbi if operator has it enabled
+        $dispatchResult = \App\Services\Dispatch\DispatchManager::dispatchBooking($booking);
+
         return redirect()->route('booking.confirmation', $booking);
     }
 

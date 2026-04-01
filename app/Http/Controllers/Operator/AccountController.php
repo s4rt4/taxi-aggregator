@@ -7,6 +7,7 @@ use App\Models\Operator;
 use App\Models\OperatorContact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rules\Password;
 
 class AccountController extends Controller
@@ -205,6 +206,53 @@ class AccountController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Password changed successfully.');
+    }
+
+    /**
+     * Update iCabbi integration settings.
+     */
+    public function updateIcabbi(Request $request)
+    {
+        $request->validate([
+            'icabbi_enabled' => 'boolean',
+            'icabbi_api_url' => 'nullable|url',
+            'icabbi_app_key' => 'nullable|string|max:255',
+            'icabbi_secret_key' => 'nullable|string|max:255',
+            'icabbi_integration_name' => 'nullable|string|max:255',
+        ]);
+
+        $operator = $this->getOrCreateOperator();
+        $operator->update($request->only([
+            'icabbi_enabled', 'icabbi_api_url', 'icabbi_app_key', 'icabbi_secret_key', 'icabbi_integration_name'
+        ]));
+
+        return redirect()->back()->with('success', 'iCabbi settings updated.');
+    }
+
+    /**
+     * Test iCabbi API connection.
+     */
+    public function testIcabbiConnection(Request $request)
+    {
+        $operator = auth()->user()->operator;
+        if (!$operator || !$operator->usesIcabbi()) {
+            return response()->json(['success' => false, 'message' => 'iCabbi not configured']);
+        }
+
+        try {
+            $response = Http::withHeaders([
+                'AppKey' => $operator->icabbi_app_key,
+                'SecretKey' => $operator->icabbi_secret_key,
+            ])->get(rtrim($operator->icabbi_api_url, '/') . '/status');
+
+            return response()->json([
+                'success' => $response->successful(),
+                'status' => $response->status(),
+                'message' => $response->successful() ? 'Connection successful!' : 'Connection failed: ' . $response->status(),
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
     }
 
     /**

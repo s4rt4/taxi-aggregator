@@ -122,6 +122,11 @@ class BookingController extends Controller
 
         $booking->update($updateData);
 
+        // Dispatch to iCabbi if operator has it enabled and booking was just accepted
+        if ($newStatus === 'accepted') {
+            \App\Services\Dispatch\DispatchManager::dispatchBooking($booking);
+        }
+
         // Notify passenger of status change
         SendBookingNotifications::onBookingStatusUpdated($booking, $newStatus);
 

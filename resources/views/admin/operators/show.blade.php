@@ -113,6 +113,9 @@
         <a class="nav-link active" data-bs-toggle="tab" href="#details" role="tab">Details</a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#icabbi" role="tab">iCabbi</a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" data-bs-toggle="tab" href="#documents" role="tab">Documents</a>
     </li>
     <li class="nav-item">
@@ -253,6 +256,64 @@
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- iCabbi Integration Tab --}}
+    <div class="tab-pane fade" id="icabbi" role="tabpanel">
+        <div class="card">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                <h6 class="fw-semibold mb-0">iCabbi Dispatch Integration</h6>
+                @if($operator->icabbi_enabled)
+                    <span class="badge bg-success">Enabled</span>
+                @else
+                    <span class="badge bg-secondary">Disabled</span>
+                @endif
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless mb-0">
+                    <tr>
+                        <td class="text-muted" style="width:40%">Status</td>
+                        <td>
+                            @if($operator->usesIcabbi())
+                                <span class="text-success fw-semibold"><i class="bi bi-check-circle-fill me-1"></i> Active & Configured</span>
+                            @elseif($operator->icabbi_enabled)
+                                <span class="text-warning fw-semibold"><i class="bi bi-exclamation-triangle-fill me-1"></i> Enabled but missing credentials</span>
+                            @else
+                                <span class="text-muted">Not enabled</span>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">API URL</td>
+                        <td>{{ $operator->icabbi_api_url ?? '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">Integration Name</td>
+                        <td>{{ $operator->icabbi_integration_name ?? '-' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">App Key</td>
+                        <td>
+                            @if($operator->icabbi_app_key)
+                                <span class="text-muted">{{ str_repeat('*', 8) }}{{ substr($operator->icabbi_app_key, -4) }}</span>
+                            @else
+                                -
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">Secret Key</td>
+                        <td>
+                            @if($operator->icabbi_secret_key)
+                                <span class="text-muted">{{ str_repeat('*', 8) }}{{ substr($operator->icabbi_secret_key, -4) }}</span>
+                            @else
+                                -
+                            @endif
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
