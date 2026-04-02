@@ -3,7 +3,16 @@
 
 @section('content')
     <h5 class="fw-bold mb-1">Company Details</h5>
-    <p class="text-muted small mb-4">Tell us about your taxi or private hire company.</p>
+    <p class="text-muted small mb-3">Tell us about your taxi or private hire company.</p>
+
+    <div class="alert alert-info small mb-4">
+        <i class="bi bi-info-circle-fill me-1"></i>
+        <strong>UK Legal Requirements:</strong> To operate on our platform, you must hold a valid
+        <strong>Private Hire Operator Licence</strong> issued by your local licensing authority, as required under the
+        <strong>Private Hire Vehicles (London) Act 1998</strong> or equivalent legislation outside London.
+        You will need to provide your licence number, expiry date, and proof of
+        <strong>Public Liability Insurance</strong> in Step 3. Applications without valid documentation will be rejected.
+    </div>
 
     <form method="POST" action="{{ route('operator.onboarding.save-step1') }}">
         @csrf

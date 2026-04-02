@@ -3,7 +3,22 @@
 
 @section('content')
     <h5 class="fw-bold mb-1">Licence & Fleet</h5>
-    <p class="text-muted small mb-4">Your private hire licence details and fleet information.</p>
+    <p class="text-muted small mb-3">Your private hire licence details and fleet information.</p>
+
+    <div class="alert alert-warning small mb-4">
+        <i class="bi bi-exclamation-triangle-fill me-1"></i>
+        <strong>Required Documents:</strong> Your application will be reviewed by our compliance team. Please ensure:
+        <ul class="mb-0 mt-2">
+            <li>Your <strong>Private Hire Operator Licence</strong> is current and not expired</li>
+            <li>Your <strong>Public Liability Insurance</strong> covers a minimum of <strong>&pound;5,000,000</strong></li>
+            <li>All drivers hold valid <strong>Private Hire Driver Licences</strong> and <strong>DBS checks</strong></li>
+            <li>All vehicles have valid <strong>MOT certificates</strong>, <strong>road tax</strong>, and <strong>PHV plates/licences</strong></li>
+        </ul>
+        <div class="mt-2">
+            You can upload copies of your licence and insurance documents in <strong>My Account &gt; Licence & Fleet</strong> after completing onboarding.
+            Applications missing required documentation will not be approved.
+        </div>
+    </div>
 
     <form method="POST" action="{{ route('operator.onboarding.save-step3') }}">
         @csrf
