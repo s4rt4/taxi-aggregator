@@ -51,6 +51,12 @@ Route::get('privacy-policy', [PageController::class, 'privacyPolicy'])->name('pr
 Route::get('terms-of-service', [PageController::class, 'termsOfService'])->name('terms-of-service');
 Route::get('cookie-policy', [PageController::class, 'cookiePolicy'])->name('cookie-policy');
 
+// Info Pages
+Route::get('about', [PageController::class, 'about'])->name('about');
+Route::get('how-it-works', [PageController::class, 'howItWorks'])->name('how-it-works');
+Route::get('for-operators', [PageController::class, 'forOperators'])->name('for-operators');
+Route::get('contact', [PageController::class, 'contact'])->name('contact');
+
 // City & Airport landing pages
 Route::get('{slug}-taxi', [LocationPageController::class, 'city'])->name('city.show');
 Route::get('{slug}-airport-taxi', [LocationPageController::class, 'airport'])->name('airport.show');

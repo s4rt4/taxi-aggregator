@@ -93,18 +93,17 @@
                 <div class="col-6 col-md-2">
                     <h6 class="fw-bold text-white small text-uppercase mb-3">Company</h6>
                     <ul class="list-unstyled small">
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">About Us</a></li>
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">How It Works</a></li>
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">For Operators</a></li>
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Blog</a></li>
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Careers</a></li>
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Contact Us</a></li>
+                        <li class="mb-1"><a href="{{ route('about') }}" class="text-secondary text-decoration-none">About Us</a></li>
+                        <li class="mb-1"><a href="{{ route('how-it-works') }}" class="text-secondary text-decoration-none">How It Works</a></li>
+                        <li class="mb-1"><a href="{{ route('for-operators') }}" class="text-secondary text-decoration-none">For Operators</a></li>
+                        <li class="mb-1"><a href="{{ route('register') }}" class="text-secondary text-decoration-none">Register</a></li>
+                        <li class="mb-1"><a href="{{ route('contact') }}" class="text-secondary text-decoration-none">Contact Us</a></li>
                     </ul>
                 </div>
                 <div class="col-6 col-md-2">
                     <h6 class="fw-bold text-white small text-uppercase mb-3">Support</h6>
                     <ul class="list-unstyled small">
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Help Centre</a></li>
+                        <li class="mb-1"><a href="{{ route('contact') }}" class="text-secondary text-decoration-none">Help Centre</a></li>
                         <li class="mb-1"><a href="{{ route('privacy-policy') }}" class="text-secondary text-decoration-none">Privacy Policy</a></li>
                         <li class="mb-1"><a href="{{ route('terms-of-service') }}" class="text-secondary text-decoration-none">Terms & Conditions</a></li>
                         <li class="mb-1"><a href="{{ route('cookie-policy') }}" class="text-secondary text-decoration-none">Cookie Policy</a></li>
@@ -127,10 +126,10 @@
                     <ul class="list-unstyled small">
                         <li class="mb-1"><a href="{{ route('airport.show', 'heathrow') }}" class="text-secondary text-decoration-none">Heathrow</a></li>
                         <li class="mb-1"><a href="{{ route('airport.show', 'gatwick') }}" class="text-secondary text-decoration-none">Gatwick</a></li>
-                        <li class="mb-1"><a href="{{ route('airport.show', 'manchester-airport') }}" class="text-secondary text-decoration-none">Manchester</a></li>
+                        <li class="mb-1"><a href="{{ route('airport.show', 'manchester-man') }}" class="text-secondary text-decoration-none">Manchester</a></li>
                         <li class="mb-1"><a href="{{ route('airport.show', 'stansted') }}" class="text-secondary text-decoration-none">Stansted</a></li>
                         <li class="mb-1"><a href="{{ route('airport.show', 'luton') }}" class="text-secondary text-decoration-none">Luton</a></li>
-                        <li class="mb-1"><a href="{{ route('airport.show', 'edinburgh-airport') }}" class="text-secondary text-decoration-none">Edinburgh</a></li>
+                        <li class="mb-1"><a href="{{ route('airport.show', 'edinburgh-edi') }}" class="text-secondary text-decoration-none">Edinburgh</a></li>
                     </ul>
                 </div>
                 <div class="col-12 col-md-4">
