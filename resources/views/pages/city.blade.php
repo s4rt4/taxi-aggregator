@@ -174,7 +174,7 @@
             <div class="col-md-4">
                 <div class="card h-100 border-0 shadow-sm p-3">
                     <div class="d-flex align-items-center mb-2">
-                        <span class="badge bg-primary rounded-circle me-2" style="width:28px;height:28px;line-height:28px;text-align:center;">{{ $i + 1 }}</span>
+                        <span class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle me-2 flex-shrink-0" style="width:28px;height:28px;font-size:0.75rem;font-weight:700;">{{ $i + 1 }}</span>
                         <h6 class="fw-bold mb-0 small">Tip {{ $i + 1 }}</h6>
                     </div>
                     <p class="text-muted small mb-0">{{ $tip }}</p>

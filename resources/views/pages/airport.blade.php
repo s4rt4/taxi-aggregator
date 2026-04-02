@@ -179,7 +179,7 @@
             <div class="col-md-4">
                 <div class="card h-100 border-0 shadow-sm p-3">
                     <div class="d-flex align-items-center mb-2">
-                        <span class="badge bg-primary rounded-circle me-2" style="width:28px;height:28px;line-height:28px;text-align:center;"><i class="bi bi-clock-fill" style="font-size:0.7rem;"></i></span>
+                        <span class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle me-2 flex-shrink-0" style="width:28px;height:28px;"><i class="bi bi-clock-fill" style="font-size:0.7rem;"></i></span>
                         <h6 class="fw-bold mb-0 small">Timing</h6>
                     </div>
                     <p class="text-muted small mb-0">Book your {{ $airport['name'] }} transfer at least 24 hours in advance for the best rates. For peak travel periods and early morning flights, 48 hours is recommended.</p>
@@ -188,7 +188,7 @@
             <div class="col-md-4">
                 <div class="card h-100 border-0 shadow-sm p-3">
                     <div class="d-flex align-items-center mb-2">
-                        <span class="badge bg-success rounded-circle me-2" style="width:28px;height:28px;line-height:28px;text-align:center;"><i class="bi bi-airplane-fill" style="font-size:0.7rem;"></i></span>
+                        <span class="d-inline-flex align-items-center justify-content-center bg-success text-white rounded-circle me-2 flex-shrink-0" style="width:28px;height:28px;"><i class="bi bi-airplane-fill" style="font-size:0.7rem;"></i></span>
                         <h6 class="fw-bold mb-0 small">Flight Tracking</h6>
                     </div>
                     <p class="text-muted small mb-0">All our {{ $airport['name'] }} operators monitor your flight in real time. If your arrival is delayed, your driver will adjust their timing automatically at no extra charge.</p>
@@ -197,7 +197,7 @@
             <div class="col-md-4">
                 <div class="card h-100 border-0 shadow-sm p-3">
                     <div class="d-flex align-items-center mb-2">
-                        <span class="badge bg-warning rounded-circle me-2" style="width:28px;height:28px;line-height:28px;text-align:center;"><i class="bi bi-luggage-fill" style="font-size:0.7rem;"></i></span>
+                        <span class="d-inline-flex align-items-center justify-content-center bg-warning text-white rounded-circle me-2 flex-shrink-0" style="width:28px;height:28px;"><i class="bi bi-luggage-fill" style="font-size:0.7rem;"></i></span>
                         <h6 class="fw-bold mb-0 small">Luggage</h6>
                     </div>
                     <p class="text-muted small mb-0">Standard luggage (2 suitcases + 2 carry-on bags) is included in all fares. For excess or oversized luggage, choose an estate or MPV vehicle when booking.</p>
