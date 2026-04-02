@@ -46,7 +46,7 @@
     </url>
     @endforeach
     {{-- Airport landing pages --}}
-    @foreach(['heathrow', 'gatwick', 'manchester-man', 'stansted', 'luton', 'edinburgh-edi', 'birmingham-bhx', 'bristol-brs', 'glasgow-gla', 'newcastle-ncl', 'leeds-bradford', 'southampton-sou'] as $airportSlug)
+    @foreach(['heathrow', 'gatwick', 'manchester-airport', 'stansted', 'luton', 'edinburgh-airport', 'birmingham-airport', 'bristol-airport', 'glasgow-airport', 'newcastle-airport', 'leeds-bradford', 'southampton-airport'] as $airportSlug)
     <url>
         <loc>{{ route('airport.show', $airportSlug) }}</loc>
         <lastmod>{{ now()->toDateString() }}</lastmod>

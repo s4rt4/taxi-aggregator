@@ -365,10 +365,10 @@
                 <div class="row g-2">
                     @php
                         $airportSlugs = [
-                            'heathrow' => 'Heathrow Airport', 'gatwick' => 'Gatwick Airport', 'manchester-man' => 'Manchester Airport',
-                            'stansted' => 'Stansted Airport', 'luton' => 'Luton Airport', 'edinburgh-edi' => 'Edinburgh Airport',
-                            'birmingham-bhx' => 'Birmingham Airport', 'bristol-brs' => 'Bristol Airport', 'glasgow-gla' => 'Glasgow Airport',
-                            'newcastle-ncl' => 'Newcastle Airport', 'leeds-bradford' => 'Leeds Bradford', 'southampton-sou' => 'Southampton Airport',
+                            'heathrow' => 'Heathrow Airport', 'gatwick' => 'Gatwick Airport', 'manchester-airport' => 'Manchester Airport',
+                            'stansted' => 'Stansted Airport', 'luton' => 'Luton Airport', 'edinburgh-airport' => 'Edinburgh Airport',
+                            'birmingham-airport' => 'Birmingham Airport', 'bristol-airport' => 'Bristol Airport', 'glasgow-airport' => 'Glasgow Airport',
+                            'newcastle-airport' => 'Newcastle Airport', 'leeds-bradford' => 'Leeds Bradford', 'southampton-airport' => 'Southampton Airport',
                         ];
                     @endphp
                     @foreach($airportSlugs as $airportSlug => $airportLabel)

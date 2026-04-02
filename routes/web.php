@@ -58,8 +58,8 @@ Route::get('for-operators', [PageController::class, 'forOperators'])->name('for-
 Route::get('contact', [PageController::class, 'contact'])->name('contact');
 
 // City & Airport landing pages
-Route::get('{slug}-taxi', [LocationPageController::class, 'city'])->name('city.show');
-Route::get('{slug}-airport-taxi', [LocationPageController::class, 'airport'])->name('airport.show');
+Route::get('taxi/{slug}', [LocationPageController::class, 'city'])->name('city.show');
+Route::get('airport-taxi/{slug}', [LocationPageController::class, 'airport'])->name('airport.show');
 
 // Sitemap
 Route::get('/sitemap.xml', function () {

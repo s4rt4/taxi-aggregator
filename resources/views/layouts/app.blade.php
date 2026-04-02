@@ -126,10 +126,10 @@
                     <ul class="list-unstyled small">
                         <li class="mb-1"><a href="{{ route('airport.show', 'heathrow') }}" class="text-secondary text-decoration-none">Heathrow</a></li>
                         <li class="mb-1"><a href="{{ route('airport.show', 'gatwick') }}" class="text-secondary text-decoration-none">Gatwick</a></li>
-                        <li class="mb-1"><a href="{{ route('airport.show', 'manchester-man') }}" class="text-secondary text-decoration-none">Manchester</a></li>
+                        <li class="mb-1"><a href="{{ route('airport.show', 'manchester-airport') }}" class="text-secondary text-decoration-none">Manchester</a></li>
                         <li class="mb-1"><a href="{{ route('airport.show', 'stansted') }}" class="text-secondary text-decoration-none">Stansted</a></li>
                         <li class="mb-1"><a href="{{ route('airport.show', 'luton') }}" class="text-secondary text-decoration-none">Luton</a></li>
-                        <li class="mb-1"><a href="{{ route('airport.show', 'edinburgh-edi') }}" class="text-secondary text-decoration-none">Edinburgh</a></li>
+                        <li class="mb-1"><a href="{{ route('airport.show', 'edinburgh-airport') }}" class="text-secondary text-decoration-none">Edinburgh</a></li>
                     </ul>
                 </div>
                 <div class="col-12 col-md-4">

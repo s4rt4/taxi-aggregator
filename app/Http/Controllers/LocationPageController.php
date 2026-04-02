@@ -406,7 +406,7 @@ class LocationPageController extends Controller
                 ],
             ],
 
-            'manchester-man' => [
+            'manchester-airport' => [
                 'name' => 'Manchester Airport',
                 'code' => 'MAN',
                 'title' => 'Manchester Airport Taxi Transfers',
@@ -481,7 +481,7 @@ class LocationPageController extends Controller
                 ],
             ],
 
-            'edinburgh-edi' => [
+            'edinburgh-airport' => [
                 'name' => 'Edinburgh Airport',
                 'code' => 'EDI',
                 'title' => 'Edinburgh Airport Taxi Transfers',
@@ -506,7 +506,7 @@ class LocationPageController extends Controller
                 ],
             ],
 
-            'birmingham-bhx' => [
+            'birmingham-airport' => [
                 'name' => 'Birmingham Airport',
                 'code' => 'BHX',
                 'title' => 'Birmingham Airport Taxi Transfers',
@@ -531,7 +531,7 @@ class LocationPageController extends Controller
                 ],
             ],
 
-            'bristol-brs' => [
+            'bristol-airport' => [
                 'name' => 'Bristol Airport',
                 'code' => 'BRS',
                 'title' => 'Bristol Airport Taxi Transfers',
@@ -556,7 +556,7 @@ class LocationPageController extends Controller
                 ],
             ],
 
-            'glasgow-gla' => [
+            'glasgow-airport' => [
                 'name' => 'Glasgow Airport',
                 'code' => 'GLA',
                 'title' => 'Glasgow Airport Taxi Transfers',
@@ -581,7 +581,7 @@ class LocationPageController extends Controller
                 ],
             ],
 
-            'newcastle-ncl' => [
+            'newcastle-airport' => [
                 'name' => 'Newcastle Airport',
                 'code' => 'NCL',
                 'title' => 'Newcastle Airport Taxi Transfers',
@@ -631,7 +631,7 @@ class LocationPageController extends Controller
                 ],
             ],
 
-            'southampton-sou' => [
+            'southampton-airport' => [
                 'name' => 'Southampton Airport',
                 'code' => 'SOU',
                 'title' => 'Southampton Airport Taxi Transfers',
