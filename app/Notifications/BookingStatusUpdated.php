@@ -36,7 +36,7 @@ class BookingStatusUpdated extends Notification implements ShouldQueue
             ->line("**Pickup:** {$this->booking->pickup_address}")
             ->line("**Date/Time:** {$this->booking->pickup_datetime->format('D, d M Y \\a\\t H:i')}")
             ->action('View Booking', route('passenger.booking-detail', $this->booking))
-            ->line('Thank you for using our service.');
+            ->line('Thank you for using ' . \App\Helpers\Settings::get('company_name', config('app.name')) . '.');
     }
 
     public function toDatabase(object $notifiable): array

@@ -24,7 +24,7 @@
                         </div>
                         <div>
                             <h6 class="fw-bold mb-0">Phone</h6>
-                            <p class="text-muted small mb-0">0800 123 4567 (Freephone, 24/7)</p>
+                            <p class="text-muted small mb-0">{{ \App\Helpers\Settings::get('contact_phone', '+44 1474 554933') }} (24/7)</p>
                         </div>
                     </div>
                 </div>
@@ -37,8 +37,7 @@
                         <div>
                             <h6 class="fw-bold mb-0">Email</h6>
                             <p class="text-muted small mb-0">
-                                General: <a href="mailto:support@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.co.uk">support@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.co.uk</a><br>
-                                Operators: <a href="mailto:operators@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.co.uk">operators@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.co.uk</a>
+                                General: <a href="mailto:{{ \App\Helpers\Settings::get('contact_email', 'support@rushxo.com') }}">{{ \App\Helpers\Settings::get('contact_email', 'support@rushxo.com') }}</a>
                             </p>
                         </div>
                     </div>
@@ -63,7 +62,7 @@
                         </div>
                         <div>
                             <h6 class="fw-bold mb-0">WhatsApp</h6>
-                            <p class="text-muted small mb-0">Message us on +44 7000 000 000</p>
+                            <p class="text-muted small mb-0"><a href="{{ \App\Helpers\Settings::get('contact_whatsapp', '#') }}" target="_blank" rel="noopener">Message us on WhatsApp</a></p>
                         </div>
                     </div>
                 </div>
@@ -75,7 +74,7 @@
                         </div>
                         <div>
                             <h6 class="fw-bold mb-0">Office</h6>
-                            <p class="text-muted small mb-0">{{ config('app.name') }} Ltd<br>United Kingdom</p>
+                            <p class="text-muted small mb-0">{{ \App\Helpers\Settings::get('company_legal_name', config('app.name') . ' Ltd') }}<br>{{ \App\Helpers\Settings::get('contact_address', 'United Kingdom') }}</p>
                         </div>
                     </div>
                 </div>

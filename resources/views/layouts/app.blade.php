@@ -135,15 +135,15 @@
                 <div class="col-12 col-md-4">
                     <h6 class="fw-bold text-white small text-uppercase mb-3">Contact & Social</h6>
                     <ul class="list-unstyled small mb-3">
-                        <li class="mb-1"><i class="bi bi-envelope me-2 text-secondary"></i><a href="mailto:support@{{ strtolower(config('app.name')) }}.co.uk" class="text-secondary text-decoration-none">support@{{ strtolower(config('app.name')) }}.co.uk</a></li>
-                        <li class="mb-1"><i class="bi bi-telephone me-2 text-secondary"></i><span class="text-secondary">0800 123 4567</span></li>
+                        <li class="mb-1"><i class="bi bi-envelope me-2 text-secondary"></i><a href="mailto:{{ \App\Helpers\Settings::get('contact_email', 'support@rushxo.com') }}" class="text-secondary text-decoration-none">{{ \App\Helpers\Settings::get('contact_email', 'support@rushxo.com') }}</a></li>
+                        <li class="mb-1"><i class="bi bi-telephone me-2 text-secondary"></i><span class="text-secondary">{{ \App\Helpers\Settings::get('contact_phone', '+44 1474 554933') }}</span></li>
                         <li class="mb-1"><i class="bi bi-clock me-2 text-secondary"></i><span class="text-secondary">24/7 Customer Support</span></li>
                     </ul>
                     <div class="d-flex gap-3">
-                        <a href="#" class="text-secondary fs-5"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-secondary fs-5"><i class="bi bi-twitter-x"></i></a>
-                        <a href="#" class="text-secondary fs-5"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-secondary fs-5"><i class="bi bi-linkedin"></i></a>
+                        <a href="{{ \App\Helpers\Settings::get('social_facebook', '#') ?: '#' }}" class="text-secondary fs-5"><i class="bi bi-facebook"></i></a>
+                        <a href="{{ \App\Helpers\Settings::get('social_twitter', '#') ?: '#' }}" class="text-secondary fs-5"><i class="bi bi-twitter-x"></i></a>
+                        <a href="{{ \App\Helpers\Settings::get('social_instagram', '#') ?: '#' }}" class="text-secondary fs-5"><i class="bi bi-instagram"></i></a>
+                        <a href="{{ \App\Helpers\Settings::get('social_linkedin', '#') ?: '#' }}" class="text-secondary fs-5"><i class="bi bi-linkedin"></i></a>
                     </div>
                 </div>
             </div>
@@ -151,7 +151,7 @@
             {{-- Bottom bar --}}
             <hr class="border-secondary mb-3">
             <div class="d-flex flex-wrap justify-content-between align-items-center small text-secondary">
-                <span>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</span>
+                <span>&copy; {{ date('Y') }} {{ \App\Helpers\Settings::get('company_name', config('app.name')) }}. All rights reserved.</span>
                 <span>
                     <a href="{{ route('privacy-policy') }}" class="text-secondary text-decoration-none me-2">Privacy</a> |
                     <a href="{{ route('terms-of-service') }}" class="text-secondary text-decoration-none mx-2">Terms</a> |

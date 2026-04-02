@@ -12,14 +12,14 @@
 
             <div class="card mb-4">
                 <div class="card-body">
-                    <p>These Terms of Service ("Terms") govern your use of the {{ config('app.name') }} platform ("Platform"). By accessing or using the Platform, you agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not use the Platform.</p>
+                    <p>These Terms of Service ("Terms") govern your use of the {{ \App\Helpers\Settings::get('company_name', config('app.name')) }} platform ("Platform"). By accessing or using the Platform, you agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not use the Platform.</p>
                 </div>
             </div>
 
             <h2 class="h4 mt-4 mb-3">1. Platform Description</h2>
             <div class="card mb-4">
                 <div class="card-body">
-                    <p>{{ config('app.name') }} operates as a <strong>marketplace and comparison platform</strong> that connects passengers with licensed taxi and private hire operators. We are <strong>not a transport operator</strong> and do not directly provide transportation services.</p>
+                    <p>{{ \App\Helpers\Settings::get('company_name', config('app.name')) }} operates as a <strong>marketplace and comparison platform</strong> that connects passengers with licensed taxi and private hire operators. We are <strong>not a transport operator</strong> and do not directly provide transportation services.</p>
                     <p>Our Platform enables you to:</p>
                     <ul>
                         <li>Compare prices from multiple licensed operators</li>
@@ -119,7 +119,7 @@
             <h2 class="h4 mt-4 mb-3">8. Intellectual Property</h2>
             <div class="card mb-4">
                 <div class="card-body">
-                    <p>All content on the Platform, including text, graphics, logos, and software, is the property of {{ config('app.name') }} or its licensors and is protected by intellectual property laws. You may not reproduce, distribute, or create derivative works without our prior written consent.</p>
+                    <p>All content on the Platform, including text, graphics, logos, and software, is the property of {{ \App\Helpers\Settings::get('company_name', config('app.name')) }} or its licensors and is protected by intellectual property laws. You may not reproduce, distribute, or create derivative works without our prior written consent.</p>
                 </div>
             </div>
 
@@ -155,8 +155,8 @@
                 <div class="card-body">
                     <p>If you have any questions about these Terms, please contact us:</p>
                     <ul>
-                        <li><strong>Email:</strong> legal@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.co.uk</li>
-                        <li><strong>Post:</strong> {{ config('app.name') }}, [Registered Address]</li>
+                        <li><strong>Email:</strong> {{ \App\Helpers\Settings::get('contact_email', 'support@rushxo.com') }}</li>
+                        <li><strong>Post:</strong> {{ \App\Helpers\Settings::get('company_legal_name', \App\Helpers\Settings::get('company_name', config('app.name'))) }}, {{ \App\Helpers\Settings::get('contact_address', '[Registered Address]') }}</li>
                     </ul>
                 </div>
             </div>

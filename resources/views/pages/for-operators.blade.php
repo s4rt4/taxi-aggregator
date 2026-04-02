@@ -6,7 +6,7 @@
 <section class="py-5" style="background: linear-gradient(135deg, #1a2332 0%, #2d3e50 100%);">
     <div class="container text-center text-white">
         <h1 class="fw-bold mb-2">Grow Your Taxi Business</h1>
-        <p class="lead opacity-75 mb-3">Join hundreds of operators already earning more through {{ config('app.name') }}</p>
+        <p class="lead opacity-75 mb-3">Join hundreds of operators already earning more through {{ \App\Helpers\Settings::get('company_name', config('app.name')) }}</p>
         <a href="{{ route('register') }}" class="btn btn-warning btn-lg fw-bold"><i class="bi bi-building me-1"></i> Register as Operator</a>
     </div>
 </section>

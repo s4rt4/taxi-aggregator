@@ -12,7 +12,7 @@
 
             <div class="card mb-4">
                 <div class="card-body">
-                    <p>{{ config('app.name') }} ("we", "us", or "our") is committed to protecting your personal data. This privacy policy explains how we collect, use, store, and share your information when you use our taxi comparison and booking platform.</p>
+                    <p>{{ \App\Helpers\Settings::get('company_name', config('app.name')) }} ("we", "us", or "our") is committed to protecting your personal data. This privacy policy explains how we collect, use, store, and share your information when you use our taxi comparison and booking platform.</p>
                     <p>We are the data controller for your personal data. We comply with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018.</p>
                 </div>
             </div>
@@ -146,8 +146,8 @@
                 <div class="card-body">
                     <p>If you have any questions about this privacy policy or wish to exercise your data rights, please contact us:</p>
                     <ul>
-                        <li><strong>Email:</strong> privacy@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.co.uk</li>
-                        <li><strong>Post:</strong> Data Protection Officer, {{ config('app.name') }}, [Registered Address]</li>
+                        <li><strong>Email:</strong> {{ \App\Helpers\Settings::get('contact_email', 'support@rushxo.com') }}</li>
+                        <li><strong>Post:</strong> Data Protection Officer, {{ \App\Helpers\Settings::get('company_legal_name', \App\Helpers\Settings::get('company_name', config('app.name'))) }}, {{ \App\Helpers\Settings::get('contact_address', '[Registered Address]') }}</li>
                     </ul>
                 </div>
             </div>

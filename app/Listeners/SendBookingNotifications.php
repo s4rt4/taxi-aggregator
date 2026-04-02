@@ -10,6 +10,7 @@ use App\Notifications\BookingCancelled;
 use App\Notifications\BookingConfirmed;
 use App\Notifications\BookingStatusUpdated;
 use App\Notifications\NewBookingReceived;
+use App\Helpers\Settings;
 use App\Services\SmsService;
 
 class SendBookingNotifications
@@ -35,9 +36,10 @@ class SendBookingNotifications
         }
 
         // SMS to passenger
+        $companyName = Settings::get('company_name', config('app.name'));
         if ($booking->passenger_phone) {
             SmsService::send($booking->passenger_phone,
-                "Booking {$booking->reference} confirmed. {$booking->pickup_address} to {$booking->destination_address} on " .
+                "Booked via {$companyName}. Ref: {$booking->reference}. {$booking->pickup_address} to {$booking->destination_address} on " .
                 \Carbon\Carbon::parse($booking->pickup_datetime)->format('d/m/Y H:i') . ". Total: GBP {$booking->total_price}");
         }
 

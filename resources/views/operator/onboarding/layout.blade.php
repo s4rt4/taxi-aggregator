@@ -24,7 +24,7 @@
         <div class="text-center mb-4">
             <h4 class="fw-bold mb-3">
                 <i class="bi bi-taxi-front-fill text-primary me-2"></i>
-                {{ config('app.name') }} - Operator Setup
+                {{ \App\Helpers\Settings::get('company_name', config('app.name')) }} - Operator Setup
             </h4>
 
             {{-- Step indicators --}}
@@ -65,7 +65,7 @@
         </div>
 
         <div class="text-center mt-3">
-            <small class="text-muted">Need help? Contact <a href="mailto:support@{{ strtolower(config('app.name')) }}.co.uk">support@{{ strtolower(config('app.name')) }}.co.uk</a></small>
+            <small class="text-muted">Need help? Contact <a href="mailto:{{ \App\Helpers\Settings::get('contact_email', 'support@rushxo.com') }}">{{ \App\Helpers\Settings::get('contact_email', 'support@rushxo.com') }}</a></small>
         </div>
     </div>
 

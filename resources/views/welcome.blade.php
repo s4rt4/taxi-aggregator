@@ -140,7 +140,7 @@
 {{-- Stats / Numbers --}}
 <section class="py-5" style="background: linear-gradient(135deg, #1a2332 0%, #2d3e50 100%);">
     <div class="container">
-        <h2 class="text-center fw-bold text-white mb-2">{{ config('app.name') }} in numbers</h2>
+        <h2 class="text-center fw-bold text-white mb-2">{{ \App\Helpers\Settings::get('company_name', config('app.name')) }} in numbers</h2>
         <p class="text-center text-white-50 mb-5">Trusted by passengers and operators across the United Kingdom</p>
         <div class="row g-4 text-center">
             @php

@@ -30,50 +30,33 @@
 </ul>
 
 <div class="tab-content">
-    {{-- General Tab --}}
+    {{-- General / Site Settings Tab --}}
     <div class="tab-pane fade show active" id="general" role="tabpanel">
-        <div class="card">
-            <div class="card-header bg-white">
-                <h6 class="fw-semibold mb-0">General Settings</h6>
-            </div>
-            <div class="card-body">
-                <form method="POST" action="{{ route('admin.settings.update') }}">
-                    @csrf
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Platform Name</label>
-                            <input type="text" class="form-control" name="platform_name" value="{{ config('app.name') }}" disabled>
-                            <div class="form-text">Change in .env file (APP_NAME).</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Support Email</label>
-                            <input type="email" class="form-control" name="support_email" placeholder="support@example.com">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Default Currency</label>
-                            <select class="form-select" name="default_currency" disabled>
-                                <option value="GBP" selected>GBP - British Pound</option>
-                                <option value="EUR">EUR - Euro</option>
-                                <option value="USD">USD - US Dollar</option>
-                            </select>
-                            <div class="form-text">Currency selection coming soon.</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Timezone</label>
-                            <select class="form-select" name="timezone" disabled>
-                                <option value="Europe/London" selected>Europe/London</option>
-                            </select>
-                            <div class="form-text">Change in .env file (APP_TIMEZONE).</div>
-                        </div>
+        <form method="POST" action="{{ route('admin.settings.update') }}">
+            @csrf
+            @foreach($groups as $groupName => $groupSettings)
+            <h5 class="text-capitalize mt-3">{{ $groupName }}</h5>
+            <div class="card mb-4">
+                <div class="card-body">
+                    @foreach($groupSettings as $setting)
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">{{ $setting->label }}</label>
+                        @if($setting->type === 'textarea')
+                            <textarea name="settings[{{ $setting->key }}]" class="form-control form-control-sm" rows="2">{{ $setting->value }}</textarea>
+                        @else
+                            <input type="{{ $setting->type }}" name="settings[{{ $setting->key }}]" class="form-control form-control-sm" value="{{ $setting->value }}">
+                        @endif
                     </div>
-                    <div class="mt-4">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-check-lg me-1"></i> Save Settings
-                        </button>
-                    </div>
-                </form>
+                    @endforeach
+                </div>
             </div>
-        </div>
+            @endforeach
+            <div class="mb-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg me-1"></i> Save Settings
+                </button>
+            </div>
+        </form>
     </div>
 
     {{-- Commission Tab --}}

@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             FleetTypeSeeder::class,
             PostcodeAreaSeeder::class,
             MeetGreetLocationSeeder::class,
+            SiteSettingSeeder::class,
         ]);
 
         // Create test users if they don't exist

@@ -38,5 +38,10 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('booking', function (Request $request) {
             return Limit::perMinute(5)->by($request->user()?->id ?: $request->ip());
         });
+
+        // Share the Settings helper with all views
+        view()->composer('*', function ($view) {
+            $view->with('settings', \App\Helpers\Settings::class);
+        });
     }
 }

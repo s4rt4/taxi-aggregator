@@ -141,7 +141,7 @@
     <div class="main-content">
         {{-- Top Yellow Banner --}}
         <div class="top-banner">
-            For any queries or changes regarding your account, please email <a href="mailto:support@{{ strtolower(config('app.name')) }}.co.uk">support@{{ strtolower(config('app.name')) }}.co.uk</a>
+            For any queries or changes regarding your account, please email <a href="mailto:{{ \App\Helpers\Settings::get('contact_email', 'support@rushxo.com') }}">{{ \App\Helpers\Settings::get('contact_email', 'support@rushxo.com') }}</a>
             &middot; Any requests for account changes require min. 1 weekday notice.
         </div>
 
@@ -215,8 +215,9 @@
 
         {{-- Minicabit-style Footer --}}
         <div class="mc-footer">
-            Registration no. 00000000 &nbsp;&middot;&nbsp; VAT no. 000 0000 00 &nbsp;&middot;&nbsp;
-            &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved. &nbsp;&middot;&nbsp;
+            @if(\App\Helpers\Settings::get('company_registration'))Registration no. {{ \App\Helpers\Settings::get('company_registration') }} &nbsp;&middot;&nbsp; @endif
+            @if(\App\Helpers\Settings::get('company_vat'))VAT no. {{ \App\Helpers\Settings::get('company_vat') }} &nbsp;&middot;&nbsp; @endif
+            &copy; {{ date('Y') }} {{ \App\Helpers\Settings::get('company_name', config('app.name')) }}. All rights reserved. &nbsp;&middot;&nbsp;
             <a href="{{ route('terms-of-service') }}">Terms and Conditions</a> &nbsp;&middot;&nbsp;
             <a href="{{ route('privacy-policy') }}">Privacy Policy</a> &nbsp;&middot;&nbsp;
             <a href="{{ route('cookie-policy') }}">Cookie Policy</a>

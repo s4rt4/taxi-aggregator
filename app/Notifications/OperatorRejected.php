@@ -30,7 +30,7 @@ class OperatorRejected extends Notification implements ShouldQueue
             ->line("We have reviewed your operator application for **{$this->operator->operator_name}** and unfortunately we are unable to approve it at this time.")
             ->line("**Reason:** {$this->reason}")
             ->line('If you believe this decision was made in error, or if you have addressed the issues mentioned above, you are welcome to reapply by updating your operator details and contacting our support team.')
-            ->line('Thank you for your interest in joining our platform.');
+            ->line('Thank you for your interest in joining ' . \App\Helpers\Settings::get('company_name', config('app.name')) . '.');
     }
 
     public function toDatabase(object $notifiable): array

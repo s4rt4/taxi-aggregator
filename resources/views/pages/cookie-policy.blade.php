@@ -11,7 +11,7 @@
             <p class="text-muted mb-4">Last updated: {{ date('j F Y') }}</p>
 
             <div class="alert alert-light border mb-4">
-                <p class="mb-0">This Cookie Policy explains what cookies are, how <strong>{{ config('app.name') }}</strong> ("we", "us", "our") uses cookies on our taxi comparison and booking platform ("Platform"), and how you can control your cookie preferences. This policy should be read alongside our <a href="{{ route('privacy-policy') }}">Privacy Policy</a>.</p>
+                <p class="mb-0">This Cookie Policy explains what cookies are, how <strong>{{ \App\Helpers\Settings::get('company_name', config('app.name')) }}</strong> ("we", "us", "our") uses cookies on our taxi comparison and booking platform ("Platform"), and how you can control your cookie preferences. This policy should be read alongside our <a href="{{ route('privacy-policy') }}">Privacy Policy</a>.</p>
             </div>
 
             {{-- 1. What Are Cookies --}}
@@ -272,8 +272,8 @@
                 <div class="card-body">
                     <p>If you have any questions about our use of cookies or this Cookie Policy, please contact us:</p>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><i class="bi bi-envelope me-2 text-primary"></i><strong>Email:</strong> <a href="mailto:privacy@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.co.uk">privacy@{{ strtolower(str_replace(' ', '', config('app.name'))) }}.co.uk</a></li>
-                        <li class="mb-2"><i class="bi bi-telephone me-2 text-primary"></i><strong>Phone:</strong> 0800 123 4567</li>
+                        <li class="mb-2"><i class="bi bi-envelope me-2 text-primary"></i><strong>Email:</strong> <a href="mailto:{{ \App\Helpers\Settings::get('contact_email', 'support@rushxo.com') }}">{{ \App\Helpers\Settings::get('contact_email', 'support@rushxo.com') }}</a></li>
+                        <li class="mb-2"><i class="bi bi-telephone me-2 text-primary"></i><strong>Phone:</strong> {{ \App\Helpers\Settings::get('contact_phone', '+44 1474 554933') }}</li>
                     </ul>
                     <p class="mb-0">For more information about how we handle your personal data, please see our <a href="{{ route('privacy-policy') }}">Privacy Policy</a>. For the terms governing your use of our Platform, see our <a href="{{ route('terms-of-service') }}">Terms of Service</a>.</p>
                 </div>

@@ -33,7 +33,7 @@ class OperatorApproved extends Notification implements ShouldQueue
             ->line('3. Add your drivers and their details')
             ->line('4. Start receiving bookings!')
             ->action('Go to Dashboard', route('operator.dashboard'))
-            ->line('Welcome aboard! We look forward to working with you.');
+            ->line('Welcome aboard ' . \App\Helpers\Settings::get('company_name', config('app.name')) . '! We look forward to working with you.');
     }
 
     public function toDatabase(object $notifiable): array

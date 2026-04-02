@@ -34,7 +34,7 @@ class BookingConfirmed extends Notification implements ShouldQueue
             ->line("**Operator:** {$this->booking->operator->operator_name}")
             ->line("**Total Price:** £{$this->booking->total_price}")
             ->action('View Booking', route('passenger.booking-detail', $this->booking))
-            ->line('Thank you for choosing our service!');
+            ->line('Thank you for choosing ' . \App\Helpers\Settings::get('company_name', config('app.name')) . '!');
     }
 
     public function toDatabase(object $notifiable): array
