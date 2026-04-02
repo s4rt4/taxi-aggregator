@@ -22,6 +22,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PassengerController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\LocationPageController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\IcabbiWebhookController;
 use App\Http\Controllers\WebhookController;
@@ -49,6 +50,10 @@ Route::post('/search', [SearchController::class, 'search'])->middleware('throttl
 Route::get('privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy-policy');
 Route::get('terms-of-service', [PageController::class, 'termsOfService'])->name('terms-of-service');
 Route::get('cookie-policy', [PageController::class, 'cookiePolicy'])->name('cookie-policy');
+
+// City & Airport landing pages
+Route::get('{slug}-taxi', [LocationPageController::class, 'city'])->name('city.show');
+Route::get('{slug}-airport-taxi', [LocationPageController::class, 'airport'])->name('airport.show');
 
 // Sitemap
 Route::get('/sitemap.xml', function () {

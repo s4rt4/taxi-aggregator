@@ -114,23 +114,23 @@
                 <div class="col-6 col-md-2">
                     <h6 class="fw-bold text-white small text-uppercase mb-3">Popular Cities</h6>
                     <ul class="list-unstyled small">
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">London</a></li>
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Manchester</a></li>
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Birmingham</a></li>
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Edinburgh</a></li>
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Glasgow</a></li>
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Liverpool</a></li>
+                        <li class="mb-1"><a href="{{ route('city.show', 'london') }}" class="text-secondary text-decoration-none">London</a></li>
+                        <li class="mb-1"><a href="{{ route('city.show', 'manchester') }}" class="text-secondary text-decoration-none">Manchester</a></li>
+                        <li class="mb-1"><a href="{{ route('city.show', 'birmingham') }}" class="text-secondary text-decoration-none">Birmingham</a></li>
+                        <li class="mb-1"><a href="{{ route('city.show', 'edinburgh') }}" class="text-secondary text-decoration-none">Edinburgh</a></li>
+                        <li class="mb-1"><a href="{{ route('city.show', 'glasgow') }}" class="text-secondary text-decoration-none">Glasgow</a></li>
+                        <li class="mb-1"><a href="{{ route('city.show', 'liverpool') }}" class="text-secondary text-decoration-none">Liverpool</a></li>
                     </ul>
                 </div>
                 <div class="col-6 col-md-2">
                     <h6 class="fw-bold text-white small text-uppercase mb-3">Airports</h6>
                     <ul class="list-unstyled small">
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Heathrow</a></li>
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Gatwick</a></li>
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Manchester</a></li>
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Stansted</a></li>
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Luton</a></li>
-                        <li class="mb-1"><a href="#" class="text-secondary text-decoration-none">Edinburgh</a></li>
+                        <li class="mb-1"><a href="{{ route('airport.show', 'heathrow') }}" class="text-secondary text-decoration-none">Heathrow</a></li>
+                        <li class="mb-1"><a href="{{ route('airport.show', 'gatwick') }}" class="text-secondary text-decoration-none">Gatwick</a></li>
+                        <li class="mb-1"><a href="{{ route('airport.show', 'manchester-airport') }}" class="text-secondary text-decoration-none">Manchester</a></li>
+                        <li class="mb-1"><a href="{{ route('airport.show', 'stansted') }}" class="text-secondary text-decoration-none">Stansted</a></li>
+                        <li class="mb-1"><a href="{{ route('airport.show', 'luton') }}" class="text-secondary text-decoration-none">Luton</a></li>
+                        <li class="mb-1"><a href="{{ route('airport.show', 'edinburgh-airport') }}" class="text-secondary text-decoration-none">Edinburgh</a></li>
                     </ul>
                 </div>
                 <div class="col-12 col-md-4">

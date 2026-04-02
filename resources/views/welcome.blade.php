@@ -347,16 +347,32 @@
             <div class="col-md-6">
                 <h5 class="fw-bold mb-3">Main cities we cover</h5>
                 <div class="row g-2">
-                    @foreach(['London Taxis', 'Manchester Taxis', 'Birmingham Taxis', 'Edinburgh Taxis', 'Glasgow Taxis', 'Liverpool Taxis', 'Leeds Taxis', 'Bristol Taxis', 'Newcastle Taxis', 'Southampton Taxis', 'Cardiff Taxis', 'Belfast Taxis'] as $city)
-                    <div class="col-6"><a href="#" class="text-decoration-none small text-muted"><i class="bi bi-geo-alt me-1"></i>{{ $city }}</a></div>
+                    @php
+                        $citySlugs = [
+                            'london' => 'London Taxis', 'manchester' => 'Manchester Taxis', 'birmingham' => 'Birmingham Taxis',
+                            'edinburgh' => 'Edinburgh Taxis', 'glasgow' => 'Glasgow Taxis', 'liverpool' => 'Liverpool Taxis',
+                            'leeds' => 'Leeds Taxis', 'bristol' => 'Bristol Taxis', 'newcastle' => 'Newcastle Taxis',
+                            'southampton' => 'Southampton Taxis', 'cardiff' => 'Cardiff Taxis', 'belfast' => 'Belfast Taxis',
+                        ];
+                    @endphp
+                    @foreach($citySlugs as $citySlug => $cityLabel)
+                    <div class="col-6"><a href="{{ route('city.show', $citySlug) }}" class="text-decoration-none small text-muted"><i class="bi bi-geo-alt me-1"></i>{{ $cityLabel }}</a></div>
                     @endforeach
                 </div>
             </div>
             <div class="col-md-6">
                 <h5 class="fw-bold mb-3">Main airports we cover</h5>
                 <div class="row g-2">
-                    @foreach(['Heathrow Airport', 'Gatwick Airport', 'Manchester Airport', 'Stansted Airport', 'Luton Airport', 'Edinburgh Airport', 'Birmingham Airport', 'Bristol Airport', 'Glasgow Airport', 'Newcastle Airport', 'Leeds Bradford', 'Southampton Airport'] as $airport)
-                    <div class="col-6"><a href="#" class="text-decoration-none small text-muted"><i class="bi bi-airplane me-1"></i>{{ $airport }}</a></div>
+                    @php
+                        $airportSlugs = [
+                            'heathrow' => 'Heathrow Airport', 'gatwick' => 'Gatwick Airport', 'manchester-airport' => 'Manchester Airport',
+                            'stansted' => 'Stansted Airport', 'luton' => 'Luton Airport', 'edinburgh-airport' => 'Edinburgh Airport',
+                            'birmingham-airport' => 'Birmingham Airport', 'bristol-airport' => 'Bristol Airport', 'glasgow-airport' => 'Glasgow Airport',
+                            'newcastle-airport' => 'Newcastle Airport', 'leeds-bradford' => 'Leeds Bradford', 'southampton-airport' => 'Southampton Airport',
+                        ];
+                    @endphp
+                    @foreach($airportSlugs as $airportSlug => $airportLabel)
+                    <div class="col-6"><a href="{{ route('airport.show', $airportSlug) }}" class="text-decoration-none small text-muted"><i class="bi bi-airplane me-1"></i>{{ $airportLabel }}</a></div>
                     @endforeach
                 </div>
             </div>
