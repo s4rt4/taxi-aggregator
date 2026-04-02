@@ -33,7 +33,15 @@
                 @forelse($operators as $operator)
                     <tr>
                         <td>
-                            <div class="fw-semibold">{{ $operator->operator_name }}</div>
+                            <div class="fw-semibold">
+                                {{ $operator->operator_name }}
+                                @switch($operator->business_type)
+                                    @case('sole_trader') <span class="badge bg-info ms-1">Sole Trader</span> @break
+                                    @case('limited_company') <span class="badge bg-primary ms-1">Ltd</span> @break
+                                    @case('partnership') <span class="badge bg-warning ms-1">Partnership</span> @break
+                                    @case('llp') <span class="badge bg-secondary ms-1">LLP</span> @break
+                                @endswitch
+                            </div>
                             @if($operator->legal_company_name && $operator->legal_company_name !== $operator->operator_name)
                                 <small class="text-muted">{{ $operator->legal_company_name }}</small>
                             @endif

@@ -145,7 +145,19 @@
                     <div class="card-body">
                         <table class="table table-borderless mb-0">
                             <tr>
-                                <td class="text-muted" style="width:40%">Operator Name</td>
+                                <td class="text-muted" style="width:40%">Business Type</td>
+                                <td>
+                                    @switch($operator->business_type)
+                                        @case('sole_trader') <span class="badge bg-info">Sole Trader</span> @break
+                                        @case('limited_company') <span class="badge bg-primary">Limited Company</span> @break
+                                        @case('partnership') <span class="badge bg-warning">Partnership</span> @break
+                                        @case('llp') <span class="badge bg-secondary">LLP</span> @break
+                                        @default <span class="badge bg-light text-dark">Not Set</span>
+                                    @endswitch
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Operator Name</td>
                                 <td class="fw-semibold">{{ $operator->operator_name }}</td>
                             </tr>
                             <tr>

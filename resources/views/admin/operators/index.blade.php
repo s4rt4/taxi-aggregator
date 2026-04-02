@@ -66,6 +66,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Operator</th>
+                    <th>Type</th>
                     <th>Email</th>
                     <th>City</th>
                     <th>Tier</th>
@@ -84,6 +85,15 @@
                             @if($operator->account_id)
                                 <small class="text-muted">{{ $operator->account_id }}</small>
                             @endif
+                        </td>
+                        <td>
+                            @switch($operator->business_type)
+                                @case('sole_trader') <span class="badge bg-info">Sole Trader</span> @break
+                                @case('limited_company') <span class="badge bg-primary">Ltd</span> @break
+                                @case('partnership') <span class="badge bg-warning">Partnership</span> @break
+                                @case('llp') <span class="badge bg-secondary">LLP</span> @break
+                                @default <span class="text-muted">-</span>
+                            @endswitch
                         </td>
                         <td>{{ $operator->email }}</td>
                         <td>{{ $operator->city ?? '-' }}</td>
@@ -120,7 +130,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="9" class="text-center py-4 text-muted">
+                        <td colspan="10" class="text-center py-4 text-muted">
                             <i class="bi bi-building fs-2 d-block mb-2"></i>
                             No operators found.
                         </td>

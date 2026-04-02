@@ -13,8 +13,11 @@
             <li>Your <strong>Public Liability Insurance</strong> covers a minimum of <strong>&pound;5,000,000</strong></li>
             <li>All drivers hold valid <strong>Private Hire Driver Licences</strong> and <strong>DBS checks</strong></li>
             <li>All vehicles have valid <strong>MOT certificates</strong>, <strong>road tax</strong>, and <strong>PHV plates/licences</strong></li>
+            <li>Sole traders: your <strong>DBS check</strong> must be current if you also drive</li>
+            <li>Limited companies: a <strong>director must be named</strong> on the PHO licence</li>
         </ul>
         <div class="mt-2">
+            These requirements apply equally to sole traders, partnerships, and limited companies.
             You can upload copies of your licence and insurance documents in <strong>My Account &gt; Licence & Fleet</strong> after completing onboarding.
             Applications missing required documentation will not be approved.
         </div>

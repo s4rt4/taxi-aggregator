@@ -12,6 +12,7 @@ class Operator extends Model
 
     protected $fillable = [
         'user_id',
+        'business_type',
         'account_id',
         'operator_name',
         'legal_company_name',
@@ -208,6 +209,18 @@ class Operator extends Model
     public function statements()
     {
         return $this->hasMany(Statement::class);
+    }
+
+    // Business type helpers
+
+    public function isSoleTrader(): bool
+    {
+        return $this->business_type === 'sole_trader';
+    }
+
+    public function isLimitedCompany(): bool
+    {
+        return in_array($this->business_type, ['limited_company', 'llp']);
     }
 
     // Dispatch helpers

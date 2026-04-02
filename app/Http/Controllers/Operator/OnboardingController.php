@@ -42,8 +42,10 @@ class OnboardingController extends Controller
     public function saveStep1(Request $request)
     {
         $validated = $request->validate([
+            'business_type' => ['required', 'in:sole_trader,limited_company,partnership,llp'],
             'operator_name' => ['required', 'string', 'max:255'],
             'legal_company_name' => ['nullable', 'string', 'max:255'],
+            'registration_number' => ['nullable', 'string', 'max:50'],
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['required', 'string', 'max:20'],
         ]);
@@ -51,8 +53,10 @@ class OnboardingController extends Controller
         $operator = $this->getOrCreateOperator();
 
         $operator->update([
+            'business_type' => $validated['business_type'],
             'operator_name' => $validated['operator_name'],
             'legal_company_name' => $validated['legal_company_name'] ?? null,
+            'registration_number' => $validated['registration_number'] ?? null,
             'email' => $validated['email'],
             'phone' => $validated['phone'],
         ]);

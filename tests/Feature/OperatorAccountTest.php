@@ -45,6 +45,7 @@ class OperatorAccountTest extends TestCase
     {
         $response = $this->actingAs($this->operatorUser)
             ->post(route('operator.account.update-company'), [
+                'business_type' => 'limited_company',
                 'cab_operator_name' => 'New Cabs Ltd',
                 'legal_company_name' => 'New Cabs Limited',
                 'trading_name' => 'NewCabs',
@@ -137,6 +138,7 @@ class OperatorAccountTest extends TestCase
 
         $response = $this->actingAs($newUser)
             ->post(route('operator.account.update-company'), [
+                'business_type' => 'sole_trader',
                 'cab_operator_name' => 'Fresh Cabs',
                 'legal_company_name' => 'Fresh Cabs Ltd',
             ]);

@@ -170,7 +170,8 @@
         {{-- ============================================ --}}
         {{-- TAB: Company Details --}}
         {{-- ============================================ --}}
-        <div x-show="activeTab === 'company'" x-transition>
+        <div x-show="activeTab === 'company'" x-transition
+             x-data="{ businessType: '{{ old('business_type', $operator->business_type ?? 'sole_trader') }}' }">
             <form method="POST" action="#">
                 @csrf
 
@@ -181,15 +182,76 @@
                 </div>
 
                 <div class="mb-3">
+                    <label class="field-label">Business Type <span class="text-danger">*</span></label>
+                    <div class="row g-2">
+                        <div class="col-6 col-md-3">
+                            <div class="form-check border rounded p-2">
+                                <input class="form-check-input" type="radio" name="business_type" value="sole_trader" id="acc_bt_sole"
+                                       x-model="businessType"
+                                       {{ old('business_type', $operator->business_type ?? 'sole_trader') === 'sole_trader' ? 'checked' : '' }}>
+                                <label class="form-check-label small" for="acc_bt_sole">
+                                    <strong>Sole Trader</strong>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="form-check border rounded p-2">
+                                <input class="form-check-input" type="radio" name="business_type" value="limited_company" id="acc_bt_ltd"
+                                       x-model="businessType"
+                                       {{ old('business_type', $operator->business_type ?? '') === 'limited_company' ? 'checked' : '' }}>
+                                <label class="form-check-label small" for="acc_bt_ltd">
+                                    <strong>Limited Company</strong>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="form-check border rounded p-2">
+                                <input class="form-check-input" type="radio" name="business_type" value="partnership" id="acc_bt_part"
+                                       x-model="businessType"
+                                       {{ old('business_type', $operator->business_type ?? '') === 'partnership' ? 'checked' : '' }}>
+                                <label class="form-check-label small" for="acc_bt_part">
+                                    <strong>Partnership</strong>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="form-check border rounded p-2">
+                                <input class="form-check-input" type="radio" name="business_type" value="llp" id="acc_bt_llp"
+                                       x-model="businessType"
+                                       {{ old('business_type', $operator->business_type ?? '') === 'llp' ? 'checked' : '' }}>
+                                <label class="form-check-label small" for="acc_bt_llp">
+                                    <strong>LLP</strong>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
                     <label class="field-label" for="cab_operator_name">Cab operator name</label>
-                    <input type="text" class="form-control form-control-sm field-highlighted-yellow" id="cab_operator_name" name="cab_operator_name" value="" placeholder="Enter your operator display name">
+                    <input type="text" class="form-control form-control-sm field-highlighted-yellow" id="cab_operator_name" name="cab_operator_name"
+                           value="{{ old('cab_operator_name', $operator->operator_name ?? '') }}" placeholder="Enter your operator display name">
                     <div class="field-note">The name of your Operator that you want to be displayed to customers.</div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="field-label" for="legal_company_name">Legal company name</label>
-                    <input type="text" class="form-control form-control-sm" id="legal_company_name" name="legal_company_name" value="Get London Transfer">
-                    <div class="field-note">If different from your operator display name above.</div>
+                    <label class="field-label" for="legal_company_name">
+                        <span x-show="businessType === 'sole_trader'">Full Legal Name (as on PHO licence)</span>
+                        <span x-show="businessType === 'partnership'">Partnership Name</span>
+                        <span x-show="businessType === 'limited_company' || businessType === 'llp'">Legal Company Name</span>
+                    </label>
+                    <input type="text" class="form-control form-control-sm" id="legal_company_name" name="legal_company_name"
+                           value="{{ old('legal_company_name', $operator->legal_company_name ?? '') }}"
+                           :placeholder="businessType === 'sole_trader' ? 'e.g. John Smith' : (businessType === 'partnership' ? 'e.g. Smith & Jones' : 'e.g. ABC Ltd')">
+                    <div class="field-note" x-show="businessType !== 'sole_trader'">If different from your operator display name above.</div>
+                </div>
+
+                <div class="mb-3" x-show="businessType === 'limited_company' || businessType === 'llp'" x-transition>
+                    <label class="field-label" for="registration_number">Companies House Number</label>
+                    <input type="text" class="form-control form-control-sm" id="registration_number" name="registration_number"
+                           value="{{ old('registration_number', $operator->registration_number ?? '') }}"
+                           placeholder="e.g. 12345678">
+                    <div class="field-note">Your company registration number at Companies House.</div>
                 </div>
 
                 <div class="d-flex gap-3 mt-4">

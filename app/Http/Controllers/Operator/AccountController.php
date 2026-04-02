@@ -27,6 +27,7 @@ class AccountController extends Controller
     public function updateCompany(Request $request)
     {
         $validated = $request->validate([
+            'business_type' => ['required', 'in:sole_trader,limited_company,partnership,llp'],
             'cab_operator_name' => ['required', 'string', 'max:255'],
             'legal_company_name' => ['nullable', 'string', 'max:255'],
             'trading_name' => ['nullable', 'string', 'max:255'],
@@ -37,6 +38,7 @@ class AccountController extends Controller
         $operator = $this->getOrCreateOperator();
 
         $operator->update([
+            'business_type' => $validated['business_type'],
             'operator_name' => $validated['cab_operator_name'],
             'legal_company_name' => $validated['legal_company_name'] ?? null,
             'trading_name' => $validated['trading_name'] ?? null,
