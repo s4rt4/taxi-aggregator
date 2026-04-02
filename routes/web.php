@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\OperatorController as AdminOperatorController;
 use App\Http\Controllers\Admin\RevenueController as AdminRevenueController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\StatementController as AdminStatementController;
+use App\Http\Controllers\Admin\AdminRoleController;
+use App\Http\Controllers\Admin\AdminUserController as AdminAdminUserController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AccountDeletionController;
 use App\Http\Controllers\BookingController;
@@ -216,46 +218,74 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
     // Operators
-    Route::get('operators', [AdminOperatorController::class, 'index'])->name('operators.index');
-    Route::get('operators/pending', [AdminOperatorController::class, 'pending'])->name('operators.pending');
-    Route::get('operators/{operator}', [AdminOperatorController::class, 'show'])->name('operators.show');
-    Route::post('operators/{operator}/approve', [AdminOperatorController::class, 'approve'])->name('operators.approve');
-    Route::post('operators/{operator}/reject', [AdminOperatorController::class, 'reject'])->name('operators.reject');
-    Route::post('operators/{operator}/suspend', [AdminOperatorController::class, 'suspend'])->name('operators.suspend');
-    Route::post('operators/{operator}/reactivate', [AdminOperatorController::class, 'reactivate'])->name('operators.reactivate');
-    Route::patch('operators/{operator}/tier', [AdminOperatorController::class, 'updateTier'])->name('operators.update-tier');
-    Route::patch('operators/{operator}/commission', [AdminOperatorController::class, 'updateCommission'])->name('operators.update-commission');
+    Route::middleware('can-admin:operators.view')->group(function () {
+        Route::get('operators', [AdminOperatorController::class, 'index'])->name('operators.index');
+        Route::get('operators/pending', [AdminOperatorController::class, 'pending'])->name('operators.pending');
+        Route::get('operators/{operator}', [AdminOperatorController::class, 'show'])->name('operators.show');
+    });
+    Route::post('operators/{operator}/approve', [AdminOperatorController::class, 'approve'])->name('operators.approve')->middleware('can-admin:operators.approve');
+    Route::post('operators/{operator}/reject', [AdminOperatorController::class, 'reject'])->name('operators.reject')->middleware('can-admin:operators.approve');
+    Route::post('operators/{operator}/suspend', [AdminOperatorController::class, 'suspend'])->name('operators.suspend')->middleware('can-admin:operators.suspend');
+    Route::post('operators/{operator}/reactivate', [AdminOperatorController::class, 'reactivate'])->name('operators.reactivate')->middleware('can-admin:operators.suspend');
+    Route::patch('operators/{operator}/tier', [AdminOperatorController::class, 'updateTier'])->name('operators.update-tier')->middleware('can-admin:operators.edit-tier');
+    Route::patch('operators/{operator}/commission', [AdminOperatorController::class, 'updateCommission'])->name('operators.update-commission')->middleware('can-admin:operators.edit-commission');
 
     // Bookings
-    Route::get('bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
-    Route::get('bookings/{booking}', [AdminBookingController::class, 'show'])->name('bookings.show');
-    Route::patch('bookings/{booking}/status', [AdminBookingController::class, 'updateStatus'])->name('bookings.update-status');
-    Route::post('bookings/{booking}/note', [AdminBookingController::class, 'addNote'])->name('bookings.add-note');
+    Route::middleware('can-admin:bookings.view')->group(function () {
+        Route::get('bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
+        Route::get('bookings/{booking}', [AdminBookingController::class, 'show'])->name('bookings.show');
+    });
+    Route::patch('bookings/{booking}/status', [AdminBookingController::class, 'updateStatus'])->name('bookings.update-status')->middleware('can-admin:bookings.edit-status');
+    Route::post('bookings/{booking}/note', [AdminBookingController::class, 'addNote'])->name('bookings.add-note')->middleware('can-admin:bookings.add-notes');
 
     // Revenue
-    Route::get('revenue', [AdminRevenueController::class, 'index'])->name('revenue');
+    Route::get('revenue', [AdminRevenueController::class, 'index'])->name('revenue')->middleware('can-admin:revenue.view');
 
     // Disputes
-    Route::get('disputes', [AdminDisputeController::class, 'index'])->name('disputes.index');
-    Route::get('disputes/{dispute}', [AdminDisputeController::class, 'show'])->name('disputes.show');
-    Route::post('disputes/{dispute}/resolve', [AdminDisputeController::class, 'resolve'])->name('disputes.resolve');
-    Route::post('disputes/{dispute}/message', [AdminDisputeController::class, 'addMessage'])->name('disputes.add-message');
+    Route::middleware('can-admin:disputes.view')->group(function () {
+        Route::get('disputes', [AdminDisputeController::class, 'index'])->name('disputes.index');
+        Route::get('disputes/{dispute}', [AdminDisputeController::class, 'show'])->name('disputes.show');
+    });
+    Route::post('disputes/{dispute}/resolve', [AdminDisputeController::class, 'resolve'])->name('disputes.resolve')->middleware('can-admin:disputes.resolve');
+    Route::post('disputes/{dispute}/message', [AdminDisputeController::class, 'addMessage'])->name('disputes.add-message')->middleware('can-admin:disputes.resolve');
 
     // Issues
-    Route::get('issues', [AdminIssueController::class, 'index'])->name('issues.index');
+    Route::get('issues', [AdminIssueController::class, 'index'])->name('issues.index')->middleware('can-admin:issues.view');
 
     // Users
-    Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
-    Route::get('users/{user}', [AdminUserController::class, 'show'])->name('users.show');
-    Route::post('users/{user}/toggle-active', [AdminUserController::class, 'toggleActive'])->name('users.toggle-active');
+    Route::middleware('can-admin:users.view')->group(function () {
+        Route::get('users', [AdminUserController::class, 'index'])->name('users.index');
+        Route::get('users/{user}', [AdminUserController::class, 'show'])->name('users.show');
+    });
+    Route::post('users/{user}/toggle-active', [AdminUserController::class, 'toggleActive'])->name('users.toggle-active')->middleware('can-admin:users.manage');
 
     // Fleet Types
-    Route::get('fleet-types', [AdminSettingsController::class, 'fleetTypes'])->name('fleet-types.index');
+    Route::get('fleet-types', [AdminSettingsController::class, 'fleetTypes'])->name('fleet-types.index')->middleware('can-admin:fleet-types.manage');
 
     // Settings
-    Route::get('settings', [AdminSettingsController::class, 'index'])->name('settings');
-    Route::post('settings', [AdminSettingsController::class, 'update'])->name('settings.update');
+    Route::get('settings', [AdminSettingsController::class, 'index'])->name('settings')->middleware('can-admin:settings.view');
+    Route::post('settings', [AdminSettingsController::class, 'update'])->name('settings.update')->middleware('can-admin:settings.edit');
 
     // Statements
-    Route::get('statements', [AdminStatementController::class, 'index'])->name('statements.index');
+    Route::get('statements', [AdminStatementController::class, 'index'])->name('statements.index')->middleware('can-admin:statements.view');
+
+    // Admin User Management
+    Route::middleware('can-admin:admin-users.view')->group(function () {
+        Route::get('admin-users', [AdminAdminUserController::class, 'index'])->name('admin-users.index');
+        Route::get('admin-users/create', [AdminAdminUserController::class, 'create'])->name('admin-users.create')->middleware('can-admin:admin-users.manage');
+        Route::post('admin-users', [AdminAdminUserController::class, 'store'])->name('admin-users.store')->middleware('can-admin:admin-users.manage');
+        Route::get('admin-users/{user}/edit', [AdminAdminUserController::class, 'edit'])->name('admin-users.edit')->middleware('can-admin:admin-users.manage');
+        Route::put('admin-users/{user}', [AdminAdminUserController::class, 'update'])->name('admin-users.update')->middleware('can-admin:admin-users.manage');
+        Route::delete('admin-users/{user}', [AdminAdminUserController::class, 'destroy'])->name('admin-users.destroy')->middleware('can-admin:admin-users.manage');
+    });
+
+    // Role Management
+    Route::middleware('can-admin:admin-roles.manage')->group(function () {
+        Route::get('roles', [AdminRoleController::class, 'index'])->name('roles.index');
+        Route::get('roles/create', [AdminRoleController::class, 'create'])->name('roles.create');
+        Route::post('roles', [AdminRoleController::class, 'store'])->name('roles.store');
+        Route::get('roles/{role}/edit', [AdminRoleController::class, 'edit'])->name('roles.edit');
+        Route::put('roles/{role}', [AdminRoleController::class, 'update'])->name('roles.update');
+        Route::delete('roles/{role}', [AdminRoleController::class, 'destroy'])->name('roles.destroy');
+    });
 });

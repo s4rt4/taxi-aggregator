@@ -20,6 +20,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'avatar',
         'password',
         'is_active',
+        'admin_role_id',
     ];
 
     protected $hidden = [
@@ -66,6 +67,30 @@ class User extends Authenticatable implements MustVerifyEmail
             'driver' => 'driver.dashboard',
             default => 'dashboard',
         };
+    }
+
+    // Admin role helpers
+    public function adminRole()
+    {
+        return $this->belongsTo(\App\Models\AdminRole::class);
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'admin' && $this->adminRole?->slug === 'super-admin';
+    }
+
+    public function hasAdminPermission(string $permission): bool
+    {
+        if ($this->role !== 'admin') {
+            return false;
+        }
+
+        if (!$this->adminRole) {
+            return false;
+        }
+
+        return $this->adminRole->hasPermission($permission);
     }
 
     // Relationships

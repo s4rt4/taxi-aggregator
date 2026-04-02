@@ -17,27 +17,21 @@ class DatabaseSeeder extends Seeder
             PostcodeAreaSeeder::class,
             MeetGreetLocationSeeder::class,
             SiteSettingSeeder::class,
+            AdminRoleSeeder::class,
         ]);
 
-        // Create test users if they don't exist
-        User::firstOrCreate(['email' => 'admin@test.com'], [
-            'name' => 'Admin User',
-            'role' => 'admin',
-            'password' => 'password',
-            'email_verified_at' => now(),
-        ]);
-
+        // Create test users if they don't exist (admin users are created in AdminRoleSeeder)
         User::firstOrCreate(['email' => 'operator@test.com'], [
             'name' => 'Operator User',
             'role' => 'operator',
-            'password' => 'password',
+            'password' => 'password123',
             'email_verified_at' => now(),
         ]);
 
         User::firstOrCreate(['email' => 'passenger@test.com'], [
             'name' => 'Passenger User',
             'role' => 'passenger',
-            'password' => 'password',
+            'password' => 'password123',
             'email_verified_at' => now(),
         ]);
     }

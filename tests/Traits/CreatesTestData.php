@@ -33,9 +33,15 @@ trait CreatesTestData
 
     protected function createAdmin(array $attrs = []): User
     {
+        $role = \App\Models\AdminRole::firstOrCreate(
+            ['slug' => 'super-admin'],
+            ['name' => 'Super Admin', 'is_system' => true, 'permissions' => null]
+        );
+
         return User::factory()->create(array_merge([
             'role' => 'admin',
             'is_active' => true,
+            'admin_role_id' => $role->id,
         ], $attrs));
     }
 

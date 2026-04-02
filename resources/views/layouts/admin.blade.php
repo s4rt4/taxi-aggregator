@@ -33,10 +33,11 @@
                 </li>
             </ul>
 
+            @if(auth()->user()->hasAdminPermission('operators.view'))
             <div class="nav-section">Operators</div>
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.operators.*') ? 'active' : '' }}" href="{{ route('admin.operators.index') }}">
+                    <a class="nav-link {{ request()->routeIs('admin.operators.*') && !request()->routeIs('admin.operators.pending') ? 'active' : '' }}" href="{{ route('admin.operators.index') }}">
                         <i class="bi bi-building"></i> All Operators
                     </a>
                 </li>
@@ -46,7 +47,9 @@
                     </a>
                 </li>
             </ul>
+            @endif
 
+            @if(auth()->user()->hasAdminPermission('bookings.view'))
             <div class="nav-section">Bookings</div>
             <ul class="nav flex-column">
                 <li class="nav-item">
@@ -55,52 +58,85 @@
                     </a>
                 </li>
             </ul>
+            @endif
 
+            @if(auth()->user()->hasAdminPermission('revenue.view') || auth()->user()->hasAdminPermission('statements.view'))
             <div class="nav-section">Financial</div>
             <ul class="nav flex-column">
+                @if(auth()->user()->hasAdminPermission('revenue.view'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.revenue') ? 'active' : '' }}" href="{{ route('admin.revenue') }}">
                         <i class="bi bi-graph-up"></i> Revenue
                     </a>
                 </li>
+                @endif
+                @if(auth()->user()->hasAdminPermission('statements.view'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.statements.*') ? 'active' : '' }}" href="{{ route('admin.statements.index') }}">
                         <i class="bi bi-receipt"></i> Statements
                     </a>
                 </li>
+                @endif
             </ul>
+            @endif
 
+            @if(auth()->user()->hasAdminPermission('disputes.view') || auth()->user()->hasAdminPermission('issues.view'))
             <div class="nav-section">Quality</div>
             <ul class="nav flex-column">
+                @if(auth()->user()->hasAdminPermission('disputes.view'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.disputes.*') ? 'active' : '' }}" href="{{ route('admin.disputes.index') }}">
                         <i class="bi bi-exclamation-octagon"></i> Disputes
                     </a>
                 </li>
+                @endif
+                @if(auth()->user()->hasAdminPermission('issues.view'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.issues.*') ? 'active' : '' }}" href="{{ route('admin.issues.index') }}">
                         <i class="bi bi-exclamation-triangle"></i> Trip Issues
                     </a>
                 </li>
+                @endif
             </ul>
+            @endif
 
             <div class="nav-section">System</div>
             <ul class="nav flex-column">
+                @if(auth()->user()->hasAdminPermission('users.view'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
                         <i class="bi bi-people"></i> Users
                     </a>
                 </li>
+                @endif
+                @if(auth()->user()->hasAdminPermission('fleet-types.manage'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.fleet-types.*') ? 'active' : '' }}" href="{{ route('admin.fleet-types.index') }}">
                         <i class="bi bi-truck"></i> Fleet Types
                     </a>
                 </li>
+                @endif
+                @if(auth()->user()->hasAdminPermission('settings.view'))
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.settings') ? 'active' : '' }}" href="{{ route('admin.settings') }}">
                         <i class="bi bi-gear"></i> Settings
                     </a>
                 </li>
+                @endif
+                @if(auth()->user()->hasAdminPermission('admin-users.view'))
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('admin.admin-users.*') ? 'active' : '' }}" href="{{ route('admin.admin-users.index') }}">
+                        <i class="bi bi-person-badge"></i> Admin Users
+                    </a>
+                </li>
+                @endif
+                @if(auth()->user()->hasAdminPermission('admin-roles.manage'))
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}" href="{{ route('admin.roles.index') }}">
+                        <i class="bi bi-key"></i> Roles & Permissions
+                    </a>
+                </li>
+                @endif
             </ul>
         </nav>
 
@@ -113,7 +149,7 @@
                 </div>
                 <div class="flex-grow-1 ms-2 overflow-hidden">
                     <div class="text-white small fw-semibold text-truncate">{{ Auth::user()->name ?? 'Admin' }}</div>
-                    <div class="text-muted small">Administrator</div>
+                    <div class="text-muted small">{{ Auth::user()->adminRole?->name ?? 'Administrator' }}</div>
                 </div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

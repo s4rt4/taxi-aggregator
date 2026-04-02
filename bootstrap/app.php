@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\Role::class,
             'active' => \App\Http\Middleware\ActiveUser::class,
+            'can-admin' => \App\Http\Middleware\CheckAdminPermission::class,
         ]);
 
         $middleware->web(append: [
