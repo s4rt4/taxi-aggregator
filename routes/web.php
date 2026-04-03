@@ -29,6 +29,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\IcabbiWebhookController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\Operator\AccountController as OperatorAccountController;
+use App\Http\Controllers\Operator\StripeConnectController as OperatorStripeConnectController;
 use App\Http\Controllers\Operator\AvailabilityController as OperatorAvailabilityController;
 use App\Http\Controllers\Operator\BookingController as OperatorBookingController;
 use App\Http\Controllers\Operator\DashboardController as OperatorDashboardController;
@@ -115,6 +116,7 @@ Route::middleware('auth')->group(function () {
 
     // Invoice
     Route::get('/invoice/{booking}', [InvoiceController::class, 'show'])->name('invoice.show');
+    Route::get('/invoice/cash-commission/{statement}', [InvoiceController::class, 'cashCommission'])->name('invoice.cash-commission');
 
     // Passenger portal
     Route::prefix('my')->name('passenger.')->group(function () {
@@ -200,6 +202,12 @@ Route::middleware(['auth', 'role:operator'])->prefix('operator')->name('operator
         Route::post('pause/immediate', [OperatorAvailabilityController::class, 'storeImmediatePause'])->name('store-immediate-pause');
         Route::post('pause/future', [OperatorAvailabilityController::class, 'storeFuturePause'])->name('store-future-pause');
     });
+
+    // Stripe Connect
+    Route::get('stripe/setup', [OperatorStripeConnectController::class, 'setup'])->name('stripe.setup');
+    Route::get('stripe/return', [OperatorStripeConnectController::class, 'return'])->name('stripe.return');
+    Route::get('stripe/refresh', [OperatorStripeConnectController::class, 'refresh'])->name('stripe.refresh');
+    Route::get('stripe/dashboard', [OperatorStripeConnectController::class, 'dashboard'])->name('stripe.dashboard');
 
     // ACCOUNT section
     Route::get('account', [OperatorAccountController::class, 'index'])->name('account.index');

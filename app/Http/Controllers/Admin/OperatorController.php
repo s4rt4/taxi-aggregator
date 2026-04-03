@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Operator;
 use App\Notifications\OperatorApproved;
 use App\Notifications\OperatorRejected;
+use App\Services\CommissionService;
 use Illuminate\Http\Request;
 
 class OperatorController extends Controller
@@ -119,6 +120,9 @@ class OperatorController extends Controller
         ]);
 
         $operator->update(['tier' => $request->tier]);
+
+        // Auto-update commission rate to match the new tier
+        CommissionService::updateRateForTier($operator);
 
         return back()->with('success', "Operator tier updated to '{$request->tier}'.");
     }

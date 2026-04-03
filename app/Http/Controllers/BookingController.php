@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Listeners\SendBookingNotifications;
 use App\Models\Booking;
 use App\Models\Quote;
+use App\Services\CommissionService;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -49,8 +50,9 @@ class BookingController extends Controller
 
         $quote->load('quoteSearch');
 
-        $commissionRate = $quote->operator->commission_rate ?? 12.00;
-        $commissionAmount = round($quote->total_price * ($commissionRate / 100), 2);
+        $commissionCalc = CommissionService::calculate($quote->operator, $quote->total_price);
+        $commissionRate = $commissionCalc['rate'];
+        $commissionAmount = $commissionCalc['commission'];
 
         $booking = Booking::create([
             'passenger_id' => auth()->id(),

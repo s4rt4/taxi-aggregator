@@ -633,6 +633,71 @@
                     Changes to payment methods require verification and approval.
                 </p>
             </div>
+
+            {{-- Stripe Connect Section --}}
+            <div class="section-divider"></div>
+            <h6 class="fw-bold mb-3">Bank Account / Stripe Connect</h6>
+            <p class="text-muted small mb-3">
+                Connect your bank account via Stripe to receive weekly payouts for completed bookings.
+            </p>
+
+            @if($operator && $operator->stripe_status === 'active')
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <span class="badge bg-success" style="font-size: 0.85rem; padding: 0.5rem 0.75rem;">
+                        <i class="bi bi-check-circle-fill me-1"></i> Stripe Connected
+                    </span>
+                    <a href="{{ route('operator.stripe.dashboard') }}" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-box-arrow-up-right me-1"></i> View Stripe Dashboard
+                    </a>
+                </div>
+                <div class="p-3 rounded" style="background: #d1e7dd; border: 1px solid #badbcc;">
+                    <p class="mb-0 small text-success fw-semibold">
+                        <i class="bi bi-check2-all me-1"></i>
+                        Your Stripe account is active. Payouts are processed automatically every Monday for the previous week's completed bookings.
+                    </p>
+                </div>
+            @elseif($operator && $operator->stripe_status === 'pending')
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <span class="badge bg-warning text-dark" style="font-size: 0.85rem; padding: 0.5rem 0.75rem;">
+                        <i class="bi bi-hourglass-split me-1"></i> Setup In Progress
+                    </span>
+                    <a href="{{ route('operator.stripe.setup') }}" class="btn btn-sm btn-warning">
+                        <i class="bi bi-arrow-repeat me-1"></i> Complete Setup
+                    </a>
+                </div>
+                <div class="p-3 rounded" style="background: #fff3cd; border: 1px solid #ffe69c;">
+                    <p class="mb-0 small text-dark">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        Your Stripe account setup is in progress. Please complete all verification steps to start receiving payouts.
+                    </p>
+                </div>
+            @elseif($operator && $operator->stripe_status === 'restricted')
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <span class="badge bg-danger" style="font-size: 0.85rem; padding: 0.5rem 0.75rem;">
+                        <i class="bi bi-exclamation-circle-fill me-1"></i> Action Required
+                    </span>
+                    <a href="{{ route('operator.stripe.setup') }}" class="btn btn-sm btn-danger">
+                        <i class="bi bi-arrow-repeat me-1"></i> Complete Requirements
+                    </a>
+                </div>
+                <div class="p-3 rounded" style="background: #f8d7da; border: 1px solid #f5c2c7;">
+                    <p class="mb-0 small text-danger">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        Your Stripe account has outstanding requirements. Please complete them to continue receiving payouts.
+                    </p>
+                </div>
+            @else
+                <a href="{{ route('operator.stripe.setup') }}" class="btn btn-primary">
+                    <i class="bi bi-stripe me-1"></i> Connect with Stripe
+                </a>
+                <div class="mt-3 p-3 rounded" style="background: #e2e3e5; border: 1px solid #d3d6d8;">
+                    <p class="mb-0 small text-muted">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        Stripe provides secure payment processing. You will be redirected to Stripe to verify your identity and bank details.
+                        This is required to receive weekly payouts for completed bookings.
+                    </p>
+                </div>
+            @endif
         </div>
 
         {{-- ============================================ --}}

@@ -21,6 +21,15 @@
             @endphp
             <span class="badge bg-{{ $tierColors[$operator->tier] ?? 'secondary' }}">{{ ucfirst($operator->tier ?? 'bronze') }}</span>
             <span class="badge bg-{{ $statusColors[$operator->status] ?? 'secondary' }}">{{ ucfirst($operator->status) }}</span>
+            @if($operator->stripe_status === 'active')
+                <span class="badge bg-success"><i class="bi bi-stripe me-1"></i>Stripe Connected</span>
+            @elseif($operator->stripe_status === 'pending')
+                <span class="badge bg-warning text-dark"><i class="bi bi-stripe me-1"></i>Stripe Pending</span>
+            @elseif($operator->stripe_status === 'restricted')
+                <span class="badge bg-danger"><i class="bi bi-stripe me-1"></i>Stripe Restricted</span>
+            @else
+                <span class="badge bg-light text-dark"><i class="bi bi-stripe me-1"></i>Stripe Not Connected</span>
+            @endif
         </div>
         <p class="text-muted mb-0">
             {{ $operator->email }}
@@ -94,6 +103,15 @@
             <div class="card-body text-center">
                 <div class="stat-label">Commission Rate</div>
                 <div class="stat-value">{{ number_format($operator->commission_rate ?? 0, 1) }}%</div>
+                @php
+                    $tierRates = ['basic' => 15.0, 'airport_approved' => 12.0, 'top_tier' => 10.0];
+                    $expectedRate = $tierRates[$operator->tier] ?? null;
+                @endphp
+                @if($expectedRate && (float)($operator->commission_rate ?? 0) !== $expectedRate)
+                    <small class="text-warning">Custom (tier default: {{ $expectedRate }}%)</small>
+                @elseif($operator->tier)
+                    <small class="text-muted">{{ ucfirst(str_replace('_', ' ', $operator->tier)) }} tier rate</small>
+                @endif
             </div>
         </div>
     </div>
@@ -262,6 +280,114 @@
                                         @endif
                                     @else
                                         -
+                                    @endif
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Financial / Stripe Connect Section --}}
+        <div class="row g-4 mt-1">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <h6 class="fw-semibold mb-0">Stripe Connect</h6>
+                        @if($operator->stripe_status === 'active')
+                            <span class="badge bg-success">Active</span>
+                        @elseif($operator->stripe_status === 'pending')
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        @elseif($operator->stripe_status === 'restricted')
+                            <span class="badge bg-danger">Restricted</span>
+                        @else
+                            <span class="badge bg-secondary">Not Connected</span>
+                        @endif
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-borderless mb-0">
+                            <tr>
+                                <td class="text-muted" style="width:40%">Account ID</td>
+                                <td>
+                                    @if($operator->stripe_account_id)
+                                        <code>{{ $operator->stripe_account_id }}</code>
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Status</td>
+                                <td>
+                                    @if($operator->stripe_status === 'active')
+                                        <span class="text-success fw-semibold"><i class="bi bi-check-circle-fill me-1"></i> Fully onboarded</span>
+                                    @elseif($operator->stripe_status === 'pending')
+                                        <span class="text-warning fw-semibold"><i class="bi bi-hourglass-split me-1"></i> Onboarding in progress</span>
+                                    @elseif($operator->stripe_status === 'restricted')
+                                        <span class="text-danger fw-semibold"><i class="bi bi-exclamation-triangle-fill me-1"></i> Requirements outstanding</span>
+                                    @else
+                                        <span class="text-muted">Not started</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Payout Schedule</td>
+                                <td>
+                                    @if($operator->stripe_status === 'active')
+                                        Weekly (every Monday)
+                                    @else
+                                        <span class="text-muted">N/A</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h6 class="fw-semibold mb-0">Commission & Payouts</h6>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-borderless mb-0">
+                            <tr>
+                                <td class="text-muted" style="width:40%">Tier</td>
+                                <td>{{ ucfirst(str_replace('_', ' ', $operator->tier ?? 'basic')) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Commission Rate</td>
+                                <td>
+                                    {{ number_format($operator->commission_rate ?? 0, 1) }}%
+                                    @php
+                                        $tierRatesDetail = ['basic' => 15.0, 'airport_approved' => 12.0, 'top_tier' => 10.0];
+                                        $expectedRateDetail = $tierRatesDetail[$operator->tier] ?? null;
+                                    @endphp
+                                    @if($expectedRateDetail && (float)($operator->commission_rate ?? 0) !== $expectedRateDetail)
+                                        <span class="badge bg-warning text-dark ms-1">Custom rate</span>
+                                    @else
+                                        <span class="badge bg-light text-dark ms-1">Tier default</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Accepts Prepaid</td>
+                                <td>
+                                    @if($operator->accepts_prepaid)
+                                        <i class="bi bi-check-circle-fill text-success"></i> Yes
+                                    @else
+                                        <i class="bi bi-x-circle-fill text-danger"></i> No
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Accepts Cash</td>
+                                <td>
+                                    @if($operator->accepts_cash)
+                                        <i class="bi bi-check-circle-fill text-success"></i> Yes
+                                    @else
+                                        <i class="bi bi-x-circle-fill text-danger"></i> No
                                     @endif
                                 </td>
                             </tr>
