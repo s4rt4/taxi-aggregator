@@ -5,7 +5,11 @@
       "Bash(npm uninstall tailwindcss autoprefixer postcss)",
       "Bash(npm run build)",
       "Bash(php artisan route:list --compact)",
-      "Bash(composer install)"
+      "Bash(composer install)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(git commit *)"
     ]
   }
 }
