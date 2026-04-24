@@ -58,9 +58,15 @@ if ! grep -q "^APP_KEY=base64:" .env; then
     echo ""
 fi
 
-# --- Storage symlink
-echo "🔗 Creating storage symlink..."
-php artisan storage:link || echo "Symlink already exists, skipping."
+# --- Storage symlink (manual because exec() is disabled on shared hosting)
+STORAGE_LINK="$APP_DIR/public/storage"
+STORAGE_TARGET="$APP_DIR/storage/app/public"
+if [ ! -L "$STORAGE_LINK" ]; then
+    echo "🔗 Creating storage symlink..."
+    ln -s "$STORAGE_TARGET" "$STORAGE_LINK"
+else
+    echo "🔗 Storage symlink exists, skipping."
+fi
 echo ""
 
 # --- Migrations
