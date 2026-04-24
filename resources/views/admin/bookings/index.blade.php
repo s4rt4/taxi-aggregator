@@ -49,6 +49,15 @@
                     <a href="{{ route('admin.bookings.index') }}" class="btn btn-outline-secondary">Clear</a>
                 </div>
             </div>
+            <div class="col-12">
+                <div class="form-check">
+                    <input type="checkbox" name="reallocated_only" value="1" id="reallocated_only"
+                           class="form-check-input" {{ request('reallocated_only') ? 'checked' : '' }}>
+                    <label class="form-check-label" for="reallocated_only">
+                        Show reallocated only
+                    </label>
+                </div>
+            </div>
         </form>
     </div>
 </div>
@@ -107,6 +116,11 @@
                             <span class="badge bg-{{ $statusColors[$booking->status] ?? 'secondary' }}">
                                 {{ ucfirst(str_replace('_', ' ', $booking->status)) }}
                             </span>
+                            @if($booking->is_reallocated)
+                                <span class="badge bg-warning text-dark ms-1" title="Booking has been reallocated">
+                                    <i class="bi bi-arrow-left-right"></i> Reallocated
+                                </span>
+                            @endif
                         </td>
                         <td class="fw-semibold">&pound;{{ number_format($booking->total_price, 2) }}</td>
                         <td>

@@ -34,8 +34,52 @@
             <div class="collapse navbar-collapse" id="navbarMain">
                 <ul class="navbar-nav ms-auto align-items-center">
                     @guest
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Log In</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-box-arrow-in-right me-1"></i> Log In
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="min-width:240px;">
+                                <li class="px-3 py-2">
+                                    <div class="small text-muted fw-semibold text-uppercase mb-2">Choose your account type</div>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-start gap-2 py-2" href="{{ route('login') }}">
+                                        <i class="bi bi-person-fill text-primary fs-5"></i>
+                                        <div>
+                                            <div class="fw-semibold small">Account Log In</div>
+                                            <div class="text-muted" style="font-size:0.75rem;">Personal passenger account</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-start gap-2 py-2" href="{{ route('login') }}?role=operator">
+                                        <i class="bi bi-building-fill text-success fs-5"></i>
+                                        <div>
+                                            <div class="fw-semibold small">Operator Log In</div>
+                                            <div class="text-muted" style="font-size:0.75rem;">Licensed taxi operators</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-start gap-2 py-2" href="{{ route('login') }}?role=corporate">
+                                        <i class="bi bi-briefcase-fill text-warning fs-5"></i>
+                                        <div>
+                                            <div class="fw-semibold small">Corporate Log In</div>
+                                            <div class="text-muted" style="font-size:0.75rem;">Business & agency accounts</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-start gap-2 py-2" href="{{ url('/') }}">
+                                        <i class="bi bi-search text-info fs-5"></i>
+                                        <div>
+                                            <div class="fw-semibold small">Guest Search</div>
+                                            <div class="text-muted" style="font-size:0.75rem;">Book without an account</div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item ms-2">
                             <a class="btn btn-primary btn-sm" href="{{ route('register') }}">Register</a>

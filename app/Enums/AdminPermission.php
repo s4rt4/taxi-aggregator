@@ -12,10 +12,16 @@ class AdminPermission
         'operators.edit-tier' => 'Change Operator Tier',
         'operators.edit-commission' => 'Change Commission Rate',
 
+        // Corporates
+        'corporates.view' => 'View Corporates',
+        'corporates.approve' => 'Approve/Reject Corporates',
+        'corporates.suspend' => 'Suspend/Reactivate Corporates',
+
         // Bookings
         'bookings.view' => 'View Bookings',
         'bookings.edit-status' => 'Change Booking Status',
         'bookings.add-notes' => 'Add Admin Notes',
+        'bookings.allocate' => 'Allocate/Reassign Bookings',
 
         // Financial
         'revenue.view' => 'View Revenue Dashboard',
@@ -49,10 +55,16 @@ class AdminPermission
             'operators.edit-tier',
             'operators.edit-commission',
         ],
+        'Corporates' => [
+            'corporates.view',
+            'corporates.approve',
+            'corporates.suspend',
+        ],
         'Bookings' => [
             'bookings.view',
             'bookings.edit-status',
             'bookings.add-notes',
+            'bookings.allocate',
         ],
         'Financial' => [
             'revenue.view',
@@ -85,9 +97,13 @@ class AdminPermission
         'operators.suspend',
         'operators.edit-tier',
         'operators.edit-commission',
+        'corporates.view',
+        'corporates.approve',
+        'corporates.suspend',
         'bookings.view',
         'bookings.edit-status',
         'bookings.add-notes',
+        'bookings.allocate',
         'disputes.view',
         'disputes.resolve',
         'issues.view',

@@ -7,11 +7,15 @@ use App\Models\Operator;
 class CommissionService
 {
     // Default tier commission rates
+    // Base rate: 20% flat; higher tiers get loyalty discounts
     const TIER_RATES = [
-        'basic' => 15.00,
-        'airport_approved' => 12.00,
-        'top_tier' => 10.00,
+        'basic' => 20.00,
+        'airport_approved' => 18.00,
+        'top_tier' => 15.00,
     ];
+
+    // Default rate for new operators
+    const DEFAULT_RATE = 20.00;
 
     /**
      * Get commission rate for an operator.
@@ -20,7 +24,7 @@ class CommissionService
     public static function getRate(Operator $operator): float
     {
         // If operator has a custom commission rate that differs from tier default, use it
-        $tierRate = self::TIER_RATES[$operator->tier] ?? 15.00;
+        $tierRate = self::TIER_RATES[$operator->tier] ?? self::DEFAULT_RATE;
 
         // If admin has set a custom rate different from tier, use the custom rate
         // Otherwise auto-apply tier rate
@@ -53,7 +57,7 @@ class CommissionService
      */
     public static function updateRateForTier(Operator $operator): void
     {
-        $tierRate = self::TIER_RATES[$operator->tier] ?? 15.00;
+        $tierRate = self::TIER_RATES[$operator->tier] ?? self::DEFAULT_RATE;
         $operator->update(['commission_rate' => $tierRate]);
     }
 }

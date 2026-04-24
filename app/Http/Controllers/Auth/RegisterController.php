@@ -22,7 +22,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['nullable', 'string', 'max:20'],
-            'role' => ['required', 'in:passenger,operator'],
+            'role' => ['required', 'in:passenger,operator,corporate'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -37,6 +37,11 @@ class RegisterController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        // Corporate users go to onboarding (not dashboard) on registration
+        if ($user->isCorporate()) {
+            return redirect()->route('corporate.onboarding');
+        }
 
         return redirect(route($user->dashboardRoute()));
     }

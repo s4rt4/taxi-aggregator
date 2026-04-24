@@ -3,7 +3,7 @@
 
 @section('content')
 <h5 class="fw-bold mb-3">Create an account</h5>
-<p class="text-muted small mb-4">Join {{ config('app.name') }} as a passenger or operator.</p>
+<p class="text-muted small mb-4">Join {{ config('app.name') }} as a passenger, operator, or corporate customer.</p>
 
 <form method="POST" action="{{ route('register') }}">
     @csrf
@@ -37,9 +37,11 @@
     <div class="mb-3">
         <label for="role" class="form-label small fw-semibold">Register as</label>
         <select class="form-select @error('role') is-invalid @enderror" id="role" name="role" required>
-            <option value="passenger" {{ old('role') == 'passenger' ? 'selected' : '' }}>Passenger</option>
-            <option value="operator" {{ old('role') == 'operator' ? 'selected' : '' }}>Taxi Operator</option>
+            <option value="passenger" {{ old('role', request('role')) == 'passenger' ? 'selected' : '' }}>Passenger - Personal travel</option>
+            <option value="operator" {{ old('role', request('role')) == 'operator' ? 'selected' : '' }}>Taxi Operator - Licensed fleet</option>
+            <option value="corporate" {{ old('role', request('role')) == 'corporate' ? 'selected' : '' }}>Corporate - Company account with invoicing</option>
         </select>
+        <small class="text-muted d-block mt-1">Corporate accounts let you manage multiple employees with budgets and auto-invoicing.</small>
         @error('role')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror

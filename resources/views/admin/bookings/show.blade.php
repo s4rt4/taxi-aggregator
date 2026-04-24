@@ -222,7 +222,7 @@
         </div>
 
         {{-- Admin Notes --}}
-        <div class="card">
+        <div class="card mb-4">
             <div class="card-header bg-white">
                 <h6 class="fw-semibold mb-0">Admin Notes</h6>
             </div>
@@ -244,6 +244,43 @@
                 </form>
             </div>
         </div>
+
+        {{-- Allocate Booking --}}
+        @if(auth()->user()->hasAdminPermission('bookings.allocate') && in_array($booking->status, ['pending', 'accepted']))
+            <div class="card border-warning">
+                <div class="card-header bg-warning bg-opacity-10 d-flex justify-content-between align-items-center">
+                    <h6 class="fw-semibold mb-0">
+                        <i class="bi bi-arrow-left-right me-1"></i> Allocate Booking
+                    </h6>
+                    @if($booking->is_reallocated)
+                        <span class="badge bg-warning text-dark">Reallocated</span>
+                    @endif
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="text-muted small">Current Operator</div>
+                        <div class="fw-semibold">{{ $booking->operator->operator_name ?? '-' }}</div>
+                    </div>
+
+                    @if($booking->is_reallocated)
+                        <div class="alert alert-warning p-2 mb-3">
+                            <div class="small">
+                                <div><strong>Original Operator:</strong> {{ $booking->originalOperator->operator_name ?? 'N/A' }}</div>
+                                <div><strong>Reassigned By:</strong> {{ $booking->allocatedBy->name ?? 'N/A' }}</div>
+                                <div><strong>Reassigned At:</strong> {{ $booking->allocated_at?->format('d M Y H:i') ?? 'N/A' }}</div>
+                                @if($booking->allocation_reason)
+                                    <div><strong>Reason:</strong> {{ $booking->allocation_reason }}</div>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#allocateModal">
+                        <i class="bi bi-arrow-left-right me-1"></i> Reassign Booking
+                    </button>
+                </div>
+            </div>
+        @endif
     </div>
 
     {{-- Sidebar --}}
@@ -359,6 +396,55 @@
         @endif
     </div>
 </div>
+
+{{-- Allocate Booking Modal --}}
+@if(auth()->user()->hasAdminPermission('bookings.allocate') && in_array($booking->status, ['pending', 'accepted']))
+<div class="modal fade" id="allocateModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ route('admin.bookings.allocate', $booking) }}">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title">Reassign Booking {{ $booking->reference }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle me-1"></i>
+                        This will reassign the booking to a different operator and reset the status to <strong>pending</strong>.
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Current Operator</label>
+                        <input type="text" class="form-control" value="{{ $booking->operator->operator_name ?? '-' }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">New Operator <span class="text-danger">*</span></label>
+                        <select name="operator_id" class="form-select" required>
+                            <option value="">Select an approved operator...</option>
+                            @foreach(($approvedOperators ?? []) as $op)
+                                @if($op->id !== $booking->operator_id)
+                                    <option value="{{ $op->id }}">{{ $op->operator_name }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Reason (optional)</label>
+                        <textarea name="reason" class="form-control" rows="3" maxlength="500"
+                                  placeholder="e.g. Original operator unavailable, load balancing, high-priority booking..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-arrow-left-right me-1"></i> Reassign Booking
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endif
 
 {{-- Status Update Modal --}}
 <div class="modal fade" id="statusModal" tabindex="-1">

@@ -2,6 +2,25 @@
 @section('title', 'Log In')
 
 @section('content')
+@php
+    $role = request()->query('role');
+    $badges = [
+        'operator' => ['label' => 'Operator Log In', 'icon' => 'bi-building-fill', 'color' => 'success', 'desc' => 'For licensed taxi operators'],
+        'corporate' => ['label' => 'Corporate Log In', 'icon' => 'bi-briefcase-fill', 'color' => 'warning', 'desc' => 'For business & agency accounts'],
+    ];
+    $badge = $badges[$role] ?? null;
+@endphp
+
+@if($badge)
+<div class="alert alert-{{ $badge['color'] }} bg-{{ $badge['color'] }} bg-opacity-10 border-0 d-flex align-items-center gap-2 mb-3 small">
+    <i class="bi {{ $badge['icon'] }} text-{{ $badge['color'] }} fs-5"></i>
+    <div>
+        <strong>{{ $badge['label'] }}</strong><br>
+        <span class="text-muted">{{ $badge['desc'] }}</span>
+    </div>
+</div>
+@endif
+
 <h5 class="fw-bold mb-3">Welcome back</h5>
 <p class="text-muted small mb-4">Log in to your account to continue.</p>
 

@@ -16,6 +16,10 @@ class Booking extends Model
     protected $fillable = [
         'reference',
         'passenger_id',
+        'corporate_id',
+        'corporate_invoice_id',
+        'cost_centre',
+        'approval_status',
         'operator_id',
         'fleet_type_id',
         'vehicle_id',
@@ -64,6 +68,11 @@ class Booking extends Model
         'completed_at',
         'operator_notes',
         'admin_notes',
+        'is_reallocated',
+        'original_operator_id',
+        'allocated_by',
+        'allocated_at',
+        'allocation_reason',
     ];
 
     protected function casts(): array
@@ -96,6 +105,8 @@ class Booking extends Model
             'arrived_at' => 'datetime',
             'started_at' => 'datetime',
             'completed_at' => 'datetime',
+            'is_reallocated' => 'boolean',
+            'allocated_at' => 'datetime',
         ];
     }
 
@@ -174,5 +185,35 @@ class Booking extends Model
     public function tripIssues(): HasMany
     {
         return $this->hasMany(TripIssue::class);
+    }
+
+    public function originalOperator(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Operator::class, 'original_operator_id');
+    }
+
+    public function allocatedBy(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\User::class, 'allocated_by');
+    }
+
+    public function corporate(): BelongsTo
+    {
+        return $this->belongsTo(Corporate::class);
+    }
+
+    public function corporateInvoice(): BelongsTo
+    {
+        return $this->belongsTo(CorporateInvoice::class);
+    }
+
+    public function isCorporate(): bool
+    {
+        return $this->corporate_id !== null;
+    }
+
+    public function isPendingApproval(): bool
+    {
+        return $this->approval_status === 'pending';
     }
 }

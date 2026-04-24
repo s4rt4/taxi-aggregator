@@ -62,7 +62,7 @@ return new class extends Migration
             $table->foreignId('approved_by')->nullable()->constrained('users')->nullOnDelete();
 
             // Commission
-            $table->decimal('commission_rate', 5, 2)->default(12.00)->comment('Platform commission %');
+            $table->decimal('commission_rate', 5, 2)->default(20.00)->comment('Platform commission %');
 
             // Ratings & stats
             $table->decimal('rating_avg', 3, 2)->default(0);

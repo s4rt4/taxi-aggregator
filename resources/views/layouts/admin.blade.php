@@ -49,6 +49,22 @@
             </ul>
             @endif
 
+            @if(auth()->user()->hasAdminPermission('corporates.view'))
+            <div class="nav-section">Corporates</div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('admin.corporates.index') || (request()->routeIs('admin.corporates.*') && !request()->routeIs('admin.corporates.pending')) ? 'active' : '' }}" href="{{ route('admin.corporates.index') }}">
+                        <i class="bi bi-building-fill"></i> All Corporates
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('admin.corporates.pending') ? 'active' : '' }}" href="{{ route('admin.corporates.pending') }}">
+                        <i class="bi bi-hourglass-split"></i> Pending Approval
+                    </a>
+                </li>
+            </ul>
+            @endif
+
             @if(auth()->user()->hasAdminPermission('bookings.view'))
             <div class="nav-section">Bookings</div>
             <ul class="nav flex-column">

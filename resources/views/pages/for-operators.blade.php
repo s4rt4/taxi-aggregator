@@ -110,8 +110,9 @@
         <p class="text-muted mb-4">Simple, transparent pricing. No monthly fees. No setup costs.</p>
         <div class="card border-0 shadow mx-auto" style="max-width:400px;">
             <div class="card-body p-4 text-center">
-                <div class="display-4 fw-bold text-primary">12%</div>
+                <div class="display-4 fw-bold text-primary">20%</div>
                 <div class="text-muted">per completed booking</div>
+                <div class="small text-muted">Discounts for Airport Approved (18%) and Top Tier (15%)</div>
                 <hr>
                 <ul class="list-unstyled text-start small text-muted">
                     <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>No monthly subscription</li>

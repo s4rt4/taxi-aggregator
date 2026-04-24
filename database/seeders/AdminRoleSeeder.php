@@ -89,5 +89,43 @@ class AdminRoleSeeder extends Seeder
         // Update operator and passenger test passwords
         User::where('email', 'operator@test.com')->update(['password' => 'password123']);
         User::where('email', 'passenger@test.com')->update(['password' => 'password123']);
+
+        // Corporate super user
+        $corpUser = User::firstOrCreate(['email' => 'corporate@test.com'], [
+            'name' => 'Corporate Admin',
+            'role' => 'corporate',
+            'password' => 'password123',
+            'email_verified_at' => now(),
+        ]);
+        $corpUser->update(['password' => 'password123']);
+
+        $corporate = \App\Models\Corporate::firstOrCreate(
+            ['billing_email' => 'corporate@test.com'],
+            [
+                'company_name' => 'Test Corporation Ltd',
+                'legal_name' => 'Test Corporation Limited',
+                'business_type' => 'limited_company',
+                'billing_phone' => '+44 20 1234 5678',
+                'billing_address_line_1' => '1 Corporate Plaza',
+                'billing_city' => 'London',
+                'billing_postcode' => 'EC1A 1BB',
+                'monthly_budget' => 10000,
+                'invoicing_frequency' => 'monthly',
+                'payment_terms_days' => 14,
+                'status' => 'approved',
+                'approved_at' => now(),
+            ]
+        );
+
+        \App\Models\CorporateUser::firstOrCreate(
+            [
+                'corporate_id' => $corporate->id,
+                'user_id' => $corpUser->id,
+            ],
+            [
+                'corporate_role' => 'super_user',
+                'is_active' => true,
+            ]
+        );
     }
 }

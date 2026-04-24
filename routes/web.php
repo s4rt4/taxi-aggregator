@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
+use App\Http\Controllers\Admin\CorporateController as AdminCorporateController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DisputeController as AdminDisputeController;
 use App\Http\Controllers\Admin\IssueController as AdminIssueController;
@@ -39,6 +40,12 @@ use App\Http\Controllers\Operator\OnboardingController as OperatorOnboardingCont
 use App\Http\Controllers\Operator\PriceCheckerController as OperatorPriceCheckerController;
 use App\Http\Controllers\Operator\PricingController as OperatorPricingController;
 use App\Http\Controllers\Operator\StatementController as OperatorStatementController;
+use App\Http\Controllers\Corporate\OnboardingController as CorporateOnboardingController;
+use App\Http\Controllers\Corporate\DashboardController as CorporateDashboardController;
+use App\Http\Controllers\Corporate\EmployeeController as CorporateEmployeeController;
+use App\Http\Controllers\Corporate\BookingController as CorporateBookingController;
+use App\Http\Controllers\Corporate\InvoiceController as CorporateInvoiceController;
+use App\Http\Controllers\Corporate\SettingsController as CorporateSettingsController;
 use Illuminate\Support\Facades\Route;
 
 // Homepage
@@ -129,6 +136,36 @@ Route::middleware('auth')->group(function () {
         Route::get('delete-account', [AccountDeletionController::class, 'request'])->name('delete-account');
         Route::post('delete-account', [AccountDeletionController::class, 'destroy'])->name('delete-account.confirm');
     });
+});
+
+// Corporate routes
+Route::middleware(['auth', 'role:corporate'])->prefix('corporate')->name('corporate.')->group(function () {
+    // Onboarding
+    Route::get('onboarding', [CorporateOnboardingController::class, 'index'])->name('onboarding');
+    Route::get('onboarding/complete', [CorporateOnboardingController::class, 'complete'])->name('onboarding.complete');
+    Route::get('onboarding/step/{step}', [CorporateOnboardingController::class, 'step'])->name('onboarding.step');
+    Route::post('onboarding/step/{step}', [CorporateOnboardingController::class, 'save'])->name('onboarding.save');
+
+    // Dashboard
+    Route::get('dashboard', [CorporateDashboardController::class, 'index'])->name('dashboard');
+
+    // Employees
+    Route::resource('employees', CorporateEmployeeController::class);
+
+    // Bookings
+    Route::get('bookings', [CorporateBookingController::class, 'index'])->name('bookings.index');
+    Route::get('bookings/{booking}', [CorporateBookingController::class, 'show'])->name('bookings.show');
+    Route::post('bookings/{booking}/approve', [CorporateBookingController::class, 'approve'])->name('bookings.approve');
+    Route::post('bookings/{booking}/reject', [CorporateBookingController::class, 'reject'])->name('bookings.reject');
+
+    // Invoices
+    Route::get('invoices', [CorporateInvoiceController::class, 'index'])->name('invoices.index');
+    Route::get('invoices/{invoice}', [CorporateInvoiceController::class, 'show'])->name('invoices.show');
+    Route::get('invoices/{invoice}/download', [CorporateInvoiceController::class, 'download'])->name('invoices.download');
+
+    // Settings
+    Route::get('settings', [CorporateSettingsController::class, 'index'])->name('settings.index');
+    Route::put('settings', [CorporateSettingsController::class, 'update'])->name('settings.update');
 });
 
 // Operator routes
@@ -238,6 +275,17 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::patch('operators/{operator}/tier', [AdminOperatorController::class, 'updateTier'])->name('operators.update-tier')->middleware('can-admin:operators.edit-tier');
     Route::patch('operators/{operator}/commission', [AdminOperatorController::class, 'updateCommission'])->name('operators.update-commission')->middleware('can-admin:operators.edit-commission');
 
+    // Corporates
+    Route::middleware('can-admin:corporates.view')->group(function () {
+        Route::get('corporates', [AdminCorporateController::class, 'index'])->name('corporates.index');
+        Route::get('corporates/pending', [AdminCorporateController::class, 'pending'])->name('corporates.pending');
+        Route::get('corporates/{corporate}', [AdminCorporateController::class, 'show'])->name('corporates.show');
+    });
+    Route::post('corporates/{corporate}/approve', [AdminCorporateController::class, 'approve'])->name('corporates.approve')->middleware('can-admin:corporates.approve');
+    Route::post('corporates/{corporate}/reject', [AdminCorporateController::class, 'reject'])->name('corporates.reject')->middleware('can-admin:corporates.approve');
+    Route::post('corporates/{corporate}/suspend', [AdminCorporateController::class, 'suspend'])->name('corporates.suspend')->middleware('can-admin:corporates.suspend');
+    Route::post('corporates/{corporate}/reactivate', [AdminCorporateController::class, 'reactivate'])->name('corporates.reactivate')->middleware('can-admin:corporates.suspend');
+
     // Bookings
     Route::middleware('can-admin:bookings.view')->group(function () {
         Route::get('bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
@@ -245,6 +293,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     });
     Route::patch('bookings/{booking}/status', [AdminBookingController::class, 'updateStatus'])->name('bookings.update-status')->middleware('can-admin:bookings.edit-status');
     Route::post('bookings/{booking}/note', [AdminBookingController::class, 'addNote'])->name('bookings.add-note')->middleware('can-admin:bookings.add-notes');
+    Route::post('bookings/{booking}/allocate', [AdminBookingController::class, 'allocate'])
+        ->middleware('can-admin:bookings.allocate')
+        ->name('bookings.allocate');
 
     // Revenue
     Route::get('revenue', [AdminRevenueController::class, 'index'])->name('revenue')->middleware('can-admin:revenue.view');

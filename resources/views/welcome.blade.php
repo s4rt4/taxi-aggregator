@@ -68,6 +68,52 @@
     </div>
 </section>
 
+{{-- Login Access Cards (4 types) --}}
+@guest
+<section class="py-4 bg-white border-bottom">
+    <div class="container">
+        <div class="row g-3">
+            <div class="col-6 col-md-3">
+                <a href="{{ url('/') }}" class="card h-100 border-0 shadow-sm text-decoration-none text-center p-3" title="Book without an account">
+                    <div class="mx-auto mb-2 d-flex align-items-center justify-content-center rounded-circle bg-info bg-opacity-10" style="width:48px;height:48px;">
+                        <i class="bi bi-search text-info fs-5"></i>
+                    </div>
+                    <div class="fw-bold small text-dark">Guest Search</div>
+                    <div class="text-muted" style="font-size:0.7rem;">Book without account</div>
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="{{ route('login') }}" class="card h-100 border-0 shadow-sm text-decoration-none text-center p-3">
+                    <div class="mx-auto mb-2 d-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10" style="width:48px;height:48px;">
+                        <i class="bi bi-person-fill text-primary fs-5"></i>
+                    </div>
+                    <div class="fw-bold small text-dark">Account Log In</div>
+                    <div class="text-muted" style="font-size:0.7rem;">Personal passengers</div>
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="{{ route('login') }}?role=operator" class="card h-100 border-0 shadow-sm text-decoration-none text-center p-3">
+                    <div class="mx-auto mb-2 d-flex align-items-center justify-content-center rounded-circle bg-success bg-opacity-10" style="width:48px;height:48px;">
+                        <i class="bi bi-building-fill text-success fs-5"></i>
+                    </div>
+                    <div class="fw-bold small text-dark">Operators Log In</div>
+                    <div class="text-muted" style="font-size:0.7rem;">Licensed taxi operators</div>
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="{{ route('login') }}?role=corporate" class="card h-100 border-0 shadow-sm text-decoration-none text-center p-3">
+                    <div class="mx-auto mb-2 d-flex align-items-center justify-content-center rounded-circle bg-warning bg-opacity-10" style="width:48px;height:48px;">
+                        <i class="bi bi-briefcase-fill text-warning fs-5"></i>
+                    </div>
+                    <div class="fw-bold small text-dark">Corporate Log In</div>
+                    <div class="text-muted" style="font-size:0.7rem;">Business & agencies</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+@endguest
+
 {{-- Trust Badges --}}
 <section class="py-3 bg-white border-bottom">
     <div class="container">
